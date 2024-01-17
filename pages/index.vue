@@ -1,14 +1,15 @@
 <template>
     <!-- PROFILE CARD -->
-    <div class="cols-span-10 md:col-span-3 ">
-        <div class="fixed">content 1 FIXED ketika mediumx</div>
+    <div class="cols-span-10 md:col-span-3 min-h-screen  ">
+        <IndexProfilecard />
     </div>
     <!-- SECTIONS -->
     <div class="cols-span-10 md:col-span-7 ">
-        <div class="min-h-screen">Section 1</div>
-        <div class="min-h-screen">Section 2</div>
-        <div class="min-h-screen">Section 3</div>
-        <div class="min-h-screen">Section 4</div>
+        <IndexAbout />
+        <IndexResume />
+        <IndexProject />
+        <IndexTestimonial />
+        <IndexContact />
     </div>
 </template>
 
