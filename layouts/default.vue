@@ -77,31 +77,37 @@ const menus = [
         path: '/',
         hash: '#about',
         title: 'About',
-        icon: resolveComponent('LucideGithub')
+        icon: resolveComponent('LucideUserRound')
+    },
+    {
+        path: '/',
+        hash: '#blog',
+        title: 'Blog',
+        icon: resolveComponent('LucideNewspaper')
     },
     {
         path: '/',
         hash: '#resume',
         title: 'Resume',
-        icon: resolveComponent('LucideLayoutPanelLeft')
+        icon: resolveComponent('LucideGraduationCap')
+    },
+    {
+        path: '/',
+        hash: '#education',
+        title: 'Education',
+        icon: resolveComponent('LucideBrifecase')
     },
     {
         path: '/',
         hash: '#project',
         title: 'Project',
-        icon: resolveComponent('LucideBriefcase')
+        icon: resolveComponent('LucideLayoutPanelLeft')
     },
     {
         path: '/',
-        hash: '#testimonial',
-        title: 'Testimonial',
+        hash: '#skill',
+        title: 'Skill',
         icon: resolveComponent('LucideUserRound')
-    },
-    {
-        path: '/',
-        hash: '#contact',
-        title: 'Contact',
-        icon: resolveComponent('LucideMail')
     }
 ]
 
