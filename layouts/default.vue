@@ -107,7 +107,7 @@ const menus = [
         path: '/',
         hash: '#skill',
         title: 'Skill',
-        icon: resolveComponent('LucideUserRound')
+        icon: resolveComponent('LucideWrench')
     }
 ]
 
