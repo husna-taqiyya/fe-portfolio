@@ -8,7 +8,7 @@
             <div class="text-4xl font-semibold">Education & Experience</div>
             <div>
                 <!-- list experience -->
-                <div class="flex gap-12 group" v-for="n in 2" key="n">
+                <div class="flex gap-6 md:gap-12 group" v-for="n in 2" key="n">
                     <div class="flex flex-col items-center">
                         <LucideCircle :size="12" class="fill-neutral stroke-none group-hover:fill-accent" />
                         <div class="grow w-px bg-neutral"></div>
@@ -17,11 +17,13 @@
                         <div class="group-hover:text-accent">2020 - Present</div>
                         <div class="flex flex-col gap-4">
                             <div>
-                                <div class="text-4xl font-semibold mt-5">Framer Desinger & Developer</div>
+                                <div class="text-xl md:text-3xl xl:text-4xl font-semibold mt-5">Framer Desinger & Developer
+                                </div>
                                 <div class="text-light">Brunodee Agency</div>
                             </div>
                             <div>
-                                <div class="text-4xl font-semibold">Front-End WordPress Developer</div>
+                                <div class="text-xl md:text-3xl xl:text-4xl font-semibold">Front-End WordPress Developer
+                                </div>
                                 <div class="text-light">Envato Market</div>
                             </div>
                         </div>
