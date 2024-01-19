@@ -5,7 +5,7 @@
             <div class="uppercase text-sm font-light">Resume</div>
         </div>
         <div class="flex flex-col gap-6 mt-10">
-            <div class="text-4xl font-semibold">Education & Experience</div>
+            <div class="text-4xl font-semibold">Experience</div>
             <div>
                 <!-- list experience -->
                 <div class="flex gap-12" v-for="n in 2" key="n">
