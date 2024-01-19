@@ -15,11 +15,12 @@
                 <div class="font-semibold uppercase text-secondary">SKILL CATEGORY</div>
                 <div class="flex gap-6">
                     <!-- list of skills -->
-                    <div v-for="n in 10">
-                        <div class="aspect-square bg-neutral w-16 rounded-md items-center justify-center">
+                    <div v-for="n in 10" class="group">
+                        <div
+                            class="aspect-square bg-neutral w-16 rounded-md items-center justify-center group-hover:scale-105">
                             <LucideWrench :size="28" />
                         </div>
-                        <div class="text-center">Skill {{ n }}</div>
+                        <div class="text-center group-hover:text-accent text-nowrap text-sm">Skill test {{ n }}</div>
                     </div>
                 </div>
             </div>

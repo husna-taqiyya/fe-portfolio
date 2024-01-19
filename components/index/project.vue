@@ -8,12 +8,12 @@
         <!-- LIST PROJECT -->
         <div class="grid grid-cols-2 gap-6 mt-8">
             <!-- PROJECT ITEM -->
-            <div class="col-span-2 md:col-span-1" v-for="j in 4" :key="j">
+            <div class="col-span-2 md:col-span-1 group" v-for="j in 4" :key="j">
                 <div class="flex justify-between items-end">
-                    <div class="font-semibold text-xl text-secondary">JUDUL PROJECT</div>
+                    <div class="font-semibold text-xl text-secondary group-hover:text-accent">JUDUL PROJECT</div>
                     <div>20 Jan 2024 - Present</div>
                 </div>
-                <div class="aspect-video bg-neutral rounded-xl"></div>
+                <div class="aspect-video bg-neutral rounded-xl group-hover:scale-105"></div>
                 <!-- SKILL -->
                 <div class="flex flex-nowrap overflow-hidden gap-2 mt-2">
                     <div v-for="n in 10" class="border border-neutral px-3 text-nowrap">skill {{ n }}</div>
