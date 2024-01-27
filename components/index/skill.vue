@@ -10,17 +10,17 @@
                 willingness to <span class="text-accent">Learn</span></div>
 
             <!-- list of skills with category -->
-            <div v-for="m in 4" class="mb-6">
+            <div v-for="(category, i) in skills" :key="i" class="mb-6">
                 <!-- category -->
-                <div class="font-semibold uppercase text-secondary">SKILL CATEGORY</div>
+                <div class="font-semibold uppercase text-secondary">{{ category.title }}</div>
                 <div class="flex gap-6">
                     <!-- list of skills -->
-                    <div v-for="n in 10" class="group">
-                        <div
-                            class="aspect-square bg-neutral w-16 rounded-md items-center justify-center group-hover:scale-105">
-                            <LucideWrench :size="28" />
+                    <div v-for="(skill, k) in category.Skill" :key="k" class="group">
+                        <!-- SVG -->
+                        <div v-html="skill.svg"
+                            class="aspect-square p-1 bg-white/75 w-16 rounded-md flex items-center justify-center group-hover:scale-110 duration-300">
                         </div>
-                        <div class="text-center group-hover:text-accent text-nowrap text-sm">Skill test {{ n }}</div>
+                        <div class="text-center group-hover:text-accent text-nowrap text-sm">{{ skill.title }}</div>
                     </div>
                 </div>
             </div>
@@ -30,6 +30,8 @@
 </template>
 
 <script setup>
-
+defineProps({
+    skills: Array
+})
 </script>
 

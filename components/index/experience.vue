@@ -8,7 +8,7 @@
             <div class="text-4xl font-semibold">Experience</div>
             <div>
                 <!-- list experience -->
-                <div class="flex gap-6 md:gap-12 group" v-for="(exp, i) in experiences" key="i">
+                <div class="flex gap-6 md:gap-12 group" v-for="(exp, i) in experience" key="i">
                     <div class="flex flex-col items-center">
                         <LucideCircle :size="12" class="fill-neutral stroke-none group-hover:fill-accent" />
                         <div class="grow w-px bg-neutral"></div>
@@ -38,6 +38,6 @@
 
 <script setup>
 defineProps({
-    experiences: Array
+    experience: Array
 })
 </script>

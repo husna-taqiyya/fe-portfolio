@@ -7,19 +7,22 @@
             <div>About</div>
         </div>
         <div class="flex flex-col gap-12 mt-10 grow">
-            <div class="text-6xl leading-tight">Say Hi from <span class="text-accent">{{ profile.firstname }}</span>,
-                {{ profile.job }}</div>
+            <div class="text-6xl leading-tight">Say Hi from <span class="text-accent">{{ profile.firstname }}</span>,{{
+                profile.job }}</div>
             <!-- <div class="text-4xl font-semibold">Every great design begin with an even better story</div> -->
-            <div class="font-light">{{ profile.bio }}</div>
+            <div class="font-light">{{ profile.job }}</div>
         </div>
         <div class="flex items-end gap-20 grow pb-20">
-
             <div>
-                <div class="text-4xl text-accent font-semibold">10+</div>
+                <div class="text-4xl text-accent font-semibold">{{ profile.year_of_experience }}+</div>
                 <div>YEARS OF <br> EXPERIENCE</div>
             </div>
             <div>
-                <div class="text-4xl text-accent font-semibold">10+</div>
+                <div class="text-4xl text-accent font-semibold">{{ profile.month_of_experience }}+</div>
+                <div>MONTH OF <br> EXPERIENCE</div>
+            </div>
+            <div>
+                <div class="text-4xl text-accent font-semibold">{{ profile.count_project }}+</div>
                 <div>PROJECT <br> COMPLETED</div>
             </div>
         </div>
