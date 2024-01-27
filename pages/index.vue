@@ -6,9 +6,9 @@
         </div>
         <!-- SECTIONS -->
         <div class="col-span-10 md:col-span-5 lg:col-span-6 xl:col-span-7 p-6 lg:px-20 xl:px-40">
-            <IndexAbout />
-            <IndexBlog />
-            <IndexExperience />
+            <IndexAbout :profile="dataProfile" />
+            <IndexBlog :blogs="blogs" />
+            <IndexExperience :experiences="experiences" />
             <IndexEducation />
             <IndexProject />
             <IndexSkill />
@@ -23,7 +23,7 @@ const { data } = await $fetch('http://localhost:5000/portfolio');
 
 const profile = data.profile;
 const project = data.project;
-const experience = data.experience;
+const experiences = data.experiences;
 const education = data.education;
 const skills = data.skills;
 const blogs = data.blogs;

@@ -8,23 +8,25 @@
             <div class="text-4xl font-semibold">Experience</div>
             <div>
                 <!-- list experience -->
-                <div class="flex gap-6 md:gap-12 group" v-for="n in 2" key="n">
+                <div class="flex gap-6 md:gap-12 group" v-for="(exp, i) in experiences" key="i">
                     <div class="flex flex-col items-center">
                         <LucideCircle :size="12" class="fill-neutral stroke-none group-hover:fill-accent" />
                         <div class="grow w-px bg-neutral"></div>
                     </div>
                     <div class="mb-10">
-                        <div class="group-hover:text-accent">2020 - Present</div>
+                        <!-- TODO readable date Nov 2022 -Present -->
+                        <!-- TODO readable date Nov 2022 - Des 2023 -->
+                        <div class="group-hover:text-accent">{{ exp.startDate }} - {{ exp.endDate ? exp.endDate :
+                            'Present' }}</div>
                         <div class="flex flex-col gap-4">
                             <div>
-                                <div class="text-xl md:text-3xl xl:text-4xl font-semibold mt-5">Framer Desinger & Developer
+                                <div class="text-xl md:text-3xl xl:text-4xl font-semibold mt-2">{{ exp.title }}
                                 </div>
-                                <div class="text-light">Brunodee Agency</div>
                             </div>
                             <div>
-                                <div class="text-xl md:text-3xl xl:text-4xl font-semibold">Front-End WordPress Developer
+                                <div class="text-xl md:text-3xl xl:text-4xl font-semibold">{{ exp.company }}
                                 </div>
-                                <div class="text-light">Envato Market</div>
+                                <div class="text-light">{{ exp.description }}</div>
                             </div>
                         </div>
                     </div>
@@ -35,5 +37,7 @@
 </template>
 
 <script setup>
-
+defineProps({
+    experiences: Array
+})
 </script>
