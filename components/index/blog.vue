@@ -17,7 +17,7 @@
                     <div class="flex-none text-2xl font-semibold group-hover:text-accent">{{ blog.title }}</div>
                     <div class="grow font-light line-clamp-2 xl:line-clamp-3">{{ blog.content }}</div>
 
-                    <div class="flex-none text-xs text-slate-100/50">{{ blog.createdAt }}</div>
+                    <div class="flex-none text-xs text-slate-100/50">{{ blog.shortDateTime }}</div>
                 </div>
             </div>
         </div>
