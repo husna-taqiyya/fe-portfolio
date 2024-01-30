@@ -8,7 +8,7 @@
             </div>
             <!-- Taro Image -->
             <div v-if="profile.avatar" class="aspect-square rounded-2xl overflow-hidden">
-                <img :src="apiUri + profile.avatar" class="object-cover min-h-full min-w-full">
+                <img :src="apiUri + profile.avatar" :alt="fullName" class="object-cover min-h-full min-w-full">
             </div>
             <div v-else class="aspect-square bg-neutral rounded-2xl"></div>
 
@@ -69,15 +69,18 @@
 </template>
 
 <script setup>
+const config = useRuntimeConfig();
+const apiUri = config.public.apiUri;
+
 const props = defineProps({
     profile: Object
 });
 
+// computing fullName
 const fullname = computed(() => {
     return `${props.profile.firstname} ${props.profile.lastname}`
 })
 
-const config = useRuntimeConfig();
-const apiUri = config.public.apiUri;
 const year = new Date().getFullYear();
+
 </script>

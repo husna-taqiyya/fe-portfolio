@@ -8,10 +8,10 @@
         <!-- LIST PROJECT -->
         <div class="grid grid-cols-2 gap-6 mt-8">
             <!-- PROJECT ITEM -->
-            <div class="col-span-2 md:col-span-1 group" v-for="(project, i) in projects" :key="i">
+            <div class="col-span-2 md:col-span-1 group" v-for="(project, i) in project" :key="i">
                 <div class="flex justify-between items-end">
                     <div class="font-semibold text-xl text-secondary group-hover:text-accent">{{ project.title }}</div>
-                    <div> {{ project.startDate }} - {{ project.endDate ? project.endDate : 'Present' }}</div>
+                    <div> {{ project.readstartDate }} - {{ project.endDate ? project.endDate : 'Present' }}</div>
                 </div>
                 <div class="aspect-video bg-neutral rounded-xl group-hover:scale-105"></div>
                 <!-- SKILL -->

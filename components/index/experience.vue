@@ -16,8 +16,7 @@
                     <div class="mb-10">
                         <!-- TODO readable date Nov 2022 -Present -->
                         <!-- TODO readable date Nov 2022 - Des 2023 -->
-                        <div class="group-hover:text-accent">{{ exp.startDate }} - {{ exp.endDate ? exp.endDate :
-                            'Present' }}</div>
+                        <div class="group-hover:text-accent">{{ exp.readStartDate }} - {{ exp.readEndDate }}</div>
                         <div class="flex flex-col gap-4">
                             <div>
                                 <div class="text-xl md:text-3xl xl:text-4xl font-semibold mt-2">{{ exp.title }}
