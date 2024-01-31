@@ -19,12 +19,16 @@
 <script setup>
 // ambil data dari backend
 // METODE EXTRACT
-const { data } = await $fetch('http://localhost:5000/portfolio');
+
+// CSR fect, dirubah ke SSR
+const { data } = await $fetch('/api/portfolio');
 
 const profile = data.profile;
 const blogs = data.blogs;
 const experience = data.experience;
 const education = data.education;
+
+
 const projects = data.projects;
 const skills = data.skills;
 
