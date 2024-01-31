@@ -10,7 +10,7 @@
             <IndexBlog :blogs="blogs" />
             <IndexExperience :experience="experience" />
             <IndexEducation :education="education" />
-            <IndexProject :project="project" />
+            <IndexProject :projects="projects" />
             <IndexSkill :skills="skills" />
         </div>
     </div>
@@ -22,26 +22,11 @@
 const { data } = await $fetch('http://localhost:5000/portfolio');
 
 const profile = data.profile;
-const project = data.project;
+const blogs = data.blogs;
 const experience = data.experience;
 const education = data.education;
+const projects = data.projects;
 const skills = data.skills;
-const blogs = data.blogs;
-
-
-console.log("profile");
-console.log(profile);
-console.log("project");
-console.log(project);
-console.log("experience");
-console.log(experience);
-console.log("education");
-console.log(education);
-console.log("skills");
-console.log(skills);
-console.log("blogs");
-console.log(blogs);
-
 
 </script>
 
