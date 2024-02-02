@@ -1,5 +1,5 @@
 <template>
-    <div class="max-w-7xl mx-auto bg-indigo-300 ">
+    <div class="max-w-7xl mx-auto ">
         <!-- ini title -->
         <div class="text-4xl font-semibold">{{ blog.title }}</div>
 
