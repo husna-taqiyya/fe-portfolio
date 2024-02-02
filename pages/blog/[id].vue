@@ -1,13 +1,14 @@
 <template>
-    <div class="max-w-7xl mx-auto ">
-        <!-- ini title -->
-        <div class="text-4xl font-semibold my-4">{{ blog.title }}</div>
+    <div class="max-w-7xl mx-auto px-4">
+        <!-- HEADER -->
+        <div class="flex justify-between items-end my-4 border-b border-b-neutral pt-6 max-md:pt-20 pb-3">
+            <div class="text-4xl font-bold">FULLNAME</div>
+            <div class="text-xl">Blog</div>
+        </div>
 
         <!-- photos -->
-        <div>
-            <!-- <img v-for="photo in blog.photos" :src="apiUri + photo.path" alt="blog.title"> -->
-
-            <Carousel :items-to-show="1.5" :wrapAround="true" :autoplay="5000">
+        <div class="">
+            <Carousel :items-to-show="1.5" :wrapAround="true" :autoplay="10000">
                 <slide v-for="photo in blog.photos" :key="photo.id">
                     <div class="aspect-video w-full">
                         <div class="w-full h-full flex justify-center bg-contain">
@@ -23,8 +24,14 @@
             </Carousel>
         </div>
 
+        <!-- title -->
+        <div class="border-b border-b-neutral">
+            <div class="text-4xl font-semibold my-4 text-justify text-accent">{{ blog.title }}</div>
+            <div class="font-light text-sm">{{ blog.shortDateTime }}</div>
+        </div>
+
         <!-- content -->
-        <div class="my-4">{{ blog.content }}</div>
+        <div class="my-4 text-justify">{{ blog.content }}</div>
     </div>
 </template>
 
