@@ -8,5 +8,4 @@ export default defineCachedEventHandler(async (event) => {
     } catch (error) {
         throw error;
     }
-
-})
+});

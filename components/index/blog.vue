@@ -6,10 +6,10 @@
         </div>
         <div class="flex flex-col gap-6 mt-10">
             <div class="text-4xl font-semibold">Latest Blog</div>
+
             <!-- LIST BLOG -->
-            <div class="grid grid-cols-10 gap-3 group hover:bg-secondary p-2 rounded-xl" v-for="(blog, i) in blogs"
-                :key="i">
-                <!-- TODO IMAGES -->
+            <a :href="'blog/' + blog.id" class="grid grid-cols-10 gap-3 group hover:bg-secondary p-2 rounded-xl"
+                v-for="(blog, i) in blogs" :key="i">
                 <div class="col-span-4 xl:col-span-3 rounded-lg">
                     <!-- photo dummy -->
                     <div v-if="!blog.photos.length" class="aspect-video bg-neutral group-hover:scale-105 duration-300">
@@ -25,7 +25,7 @@
                     <div class="grow font-light line-clamp-2 xl:line-clamp-3">{{ blog.content }}</div>
                     <div class="flex-none text-xs text-slate-100/50">{{ blog.shortDateTime }}</div>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 </template>

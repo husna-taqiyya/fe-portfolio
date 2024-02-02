@@ -17,9 +17,9 @@
 </template>
 
 <script setup>
-import { errorMessages } from 'vue/compiler-sfc';
+// manggil data dari back end test
 
-// ambil data dari backend
+// CSR fect, dirubeh ke SSR
 // METODE EXTRACT
 const getPortfolio = async () => {
     try {
