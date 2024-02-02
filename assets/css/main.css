@@ -1,3 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.carousel {
+    display: block;
+}
+
+.carouselviewport {
+    border-radius: 0.25rem;
+}
+
+@media (min-width: 768px) {
+
+    .carouselviewport {
+        border-radius: 0.5rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .carousel__viewport {
+
+        border-radius: 1rem;
+    }
+}
