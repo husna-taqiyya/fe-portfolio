@@ -1,5 +1,5 @@
 <template>
-    <div class="max-w-7xl mx-auto px-4">
+    <div class="max-w-7xl mx-auto px-4 pb-16">
         <!-- HEADER -->
         <div class="flex justify-between items-end my-4 border-b border-b-neutral pt-6 max-md:pt-20 pb-3">
             <div class="text-4xl font-bold">FULLNAME</div>
