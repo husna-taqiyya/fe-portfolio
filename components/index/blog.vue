@@ -8,7 +8,7 @@
             <div class="text-4xl font-semibold">Latest Blog</div>
 
             <!-- LIST BLOG -->
-            <NuxtLink :href="'blog/' + blog.id" class="grid grid-cols-10 gap-3 group hover:bg-secondary p-2 rounded-xl"
+            <NuxtLink :to="'blog/' + blog.id" class="grid grid-cols-10 gap-3 group hover:bg-secondary p-2 rounded-xl"
                 v-for="(blog, i) in blogs" :key="i">
                 <div class="col-span-4 xl:col-span-3 rounded-lg">
                     <!-- photo dummy -->
@@ -25,6 +25,8 @@
                     <div class="flex-none text-xs text-slate-100/50">{{ blog.shortDateTime }}</div>
                 </div>
             </NuxtLink>
+
+            <NuxtLink to="/blog" class="btn btn-accent w-min truncate px-8 max-auto">See All Blogs</NuxtLink>
         </div>
     </div>
 </template>
