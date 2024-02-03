@@ -6,16 +6,18 @@
             <div class="text-xl">Blog</div>
         </div>
 
-        <!-- LOOP DATA BLOGS -->
+        <!-- PAGINATION TOP -->
         <div class="flex justify-between items-end">
-            <div class="text-xl font-semibold my-6">My Latest <span class="text-accent">Blogs</span></div>
+            <div class="text-4xl font-semibold my-6">My Latest <span class="text-accent">Blogs</span></div>
             <div class="join">
-                <button class="join-item btn"></button>
-                <button class="join-item btn">Page {{ page }}</button>
-                <button class="join-item btn"></button>
+                <button class="join-item btn" :class="{ 'btn-disabled': page == 1 }" @click="page--">«</button>
+                <button class="join-item btn">Page {{ blogs.page }}</button>
+                <button class="join-item btn" :class="{ 'btn-disabled': page == maxPage }" @click=page++>»</button>
             </div>
         </div>
-        <div class="grid grid-cols-3 gap-8">
+
+        <!-- LOOP DATA BLOGS -->
+        <div class=" grid grid-cols-3 gap-8">
             <NuxtLink :to="'blog/' + blog.id" v-for="blog in blogs.data" class="w-full group">
                 <div class="text-accent text-xl font-bold">{{ blog.title }}</div>
                 <div class="text-sm font-light">{{ blog.shortDateTime }}</div>
@@ -29,6 +31,16 @@
                 </div>
             </NuxtLink>
         </div>
+
+        <!-- PAGINATION BUTTOM -->
+        <div class="flex justify-end items-end mt-6">
+            <div class="join">
+                <button class="join-item btn" :class="{ 'btn-disabled': page == 1 }" @click="page--">«</button>
+                <button class="join-item btn">Page {{ blogs.page }}</button>
+                <button class="join-item btn" :class="{ 'btn-disabled': page == maxPage }" @click=page++>»</button>
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -37,7 +49,14 @@ const config = useRuntimeConfig();
 const apiUri = config.public.apiUri;
 
 // ambil data blogs melalui server
-const blogs = await $fetch('/api/blog');
-const page = blogs.page;
-const maxPage = blogs.maxPage;
+const blogs = ref(null);
+blogs.value = await $fetch('/api/blog');
+
+const maxPage = blogs.value.maxPage;
+const page = ref(1);
+
+watchEffect(async () => {
+    blogs.value = await $fetch('/api/blog?page=' + page.value);
+});
+
 </script>
