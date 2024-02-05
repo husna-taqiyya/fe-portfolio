@@ -21,18 +21,9 @@
 
         <!-- LOOP DATA PROJECTS -->
         <div class=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <NuxtLink :to="'project/' + project.id" v-for="project in projects.data" class="w-full group">
-                <div class="text-accent text-xl font-bold">{{ project.title }}</div>
-                <div class="text-sm font-light">{{ project.readStartDate }} - {{ project.readEndDate }}</div>
-                <div class="group-hover:scale-105 duration-300 mt-1">
-                    <!-- image data -->
-                    <img v-if="project.photos.length" :src="apiUri + project.photos[0].path" alt=""
-                        class="w-full aspect-video rounded-xl">
-                    <!-- image dummy -->
-                    <div v-else class="w-full aspect-video bg-neutral rounded-xl"></div>
-                    <div class="line-clamp-2 font-light">{{ project.skill }}</div>
-                </div>
-            </NuxtLink>
+            <template v-for="project in projects.data" :key="project.id">
+                <ProjectThumbnail :project="project" class="w-full"></ProjectThumbnail>
+            </template>
         </div>
 
         <!-- PAGINATION BUTTOM -->
@@ -47,6 +38,8 @@
 </template>
 
 <script setup>
+import ProjectThumbnail from '../../components/projectThumbnail.vue'
+
 const config = useRuntimeConfig();
 const apiUri = config.public.apiUri;
 
