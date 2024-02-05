@@ -48,17 +48,19 @@
                 </div>
                 <!-- URL DETAIL -->
                 <div v-if="project.uri">
-                    <span class="font-semibold">Url:</span> <a :href="project.url" target="_blank">{{ project.url }}</a>
+                    <span class="font-semibold">Url:</span><a :href="project.url" target="_blank">{{ project.url }}</a>
                 </div>
 
                 <!-- SKILLS -->
-                <div class="font-semibold mt-4">TECHNOLOGIES:</div>
-                <div class="flex flex-wrap gap-4">
-                    <div v-for="skill in project.skills" class="adge badge-lg badge-outline text-accent">
-                        <div v-html="skill.svg" class="w-5 mr-2 bg-neutral-100 rounded"></div>
-                        {{ skill.title }}
+                <template v-if="project.skills.length">
+                    <div class="font-semibold mt-4">TECHNOLOGIES:</div>
+                    <div class="flex flex-wrap gap-4">
+                        <div v-for="skill in project.skills" :key="skill" class="adge badge-lg badge-outline text-accent">
+                            <div v-html="skill.svg" class="w-5 mr-2 bg-neutral-100 rounded"></div>
+                            {{ skill.title }}
+                        </div>
                     </div>
-                </div>
+                </template>
 
                 <!-- description, muncul ketika layar kecil -->
                 <div class="mt-2 max-md:hidden">
