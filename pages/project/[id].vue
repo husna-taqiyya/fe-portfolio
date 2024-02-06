@@ -1,10 +1,7 @@
 <template>
     <div class="max-w-7xl mx-auto px-4 pb-16">
         <!-- HEADER -->
-        <div class="flex justify-between items-end my-4 border-b border-b-neutral pt-6 max-md:pt-20 pb-3">
-            <div class="text-4xl font-bold">FULLNAME</div>
-            <NuxtLink to="/project" class="text-xl">Project</NuxtLink>
-        </div>
+        <IndexHeader :title="'Projects'" :url="'/project'" />
 
         <!-- Judul project -->
         <div class="text-4xl font-semibold my-4 text-justify text-accent">{{ project.title }}</div>
@@ -72,6 +69,10 @@
 </template>
 
 <script setup>
+definePageMeta({
+    middleware: ['profile']
+});
+
 import 'vue3-carousel/dist/carousel.css'
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
 
@@ -86,5 +87,6 @@ const project = await $fetch('/api/project/' + projectID);
 const status = computed(() => {
     return project.status.replaceAll('_', '');
 });
+
 </script>
 

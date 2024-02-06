@@ -13,7 +13,10 @@
                     <ProjectThumbnail :project="project" class="col-span-2 md:col-span-1" />
                 </template>
             </div>
-            <NuxtLink to="/project" class="btn btn-accent w-min truncate px-8 max-auto">See All Projects</NuxtLink>
+
+            <div class="flex justify-center mt-10">
+                <NuxtLink to="/project" class="btn btn-accent w-min truncate px-8 max-auto">See All Projects</NuxtLink>
+            </div>
         </div>
     </div>
 </template>

@@ -8,7 +8,7 @@
             </div>
             <!-- Taro Image -->
             <div v-if="profile.avatar" class="aspect-square rounded-2xl overflow-hidden">
-                <img :src="apiUri + profile.avatar" :alt="fullName" class="object-cover min-h-full min-w-full">
+                <img :src="apiUri + profile.avatar" :alt="fullname" class="object-cover min-h-full min-w-full">
             </div>
             <div v-else class="aspect-square bg-neutral rounded-2xl"></div>
 

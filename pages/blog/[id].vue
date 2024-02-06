@@ -1,10 +1,8 @@
 <template>
     <div class="max-w-7xl mx-auto px-4 pb-16">
         <!-- HEADER -->
-        <div class="flex justify-between items-end my-4 border-b border-b-neutral pt-6 max-md:pt-20 pb-3">
-            <div class="text-4xl font-bold">FULLNAME</div>
-            <NuxtLink to="/blog" class="text-xl">Blog</NuxtLink>
-        </div>
+        <IndexHeader :title="'Blogs'" :url="'/blog'" />
+
 
         <!-- photos -->
         <div>
@@ -36,6 +34,10 @@
 </template>
 
 <script setup>
+definePageMeta({
+    middleware: ['profile']
+});
+
 import 'vue3-carousel/dist/carousel.css'
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
 
@@ -46,11 +48,6 @@ const config = useRuntimeConfig();
 const apiUri = config.public.apiUri;
 
 const blog = await $fetch('/api/blog/' + blogID)
-
-
-// ambil data blog, dari server nuxt
-
-
 
 </script>
 

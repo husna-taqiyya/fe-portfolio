@@ -1,10 +1,7 @@
 <template>
     <div class="max-w-7xl mx-auto px-4 pb-16">
         <!-- HEADER -->
-        <div class="flex justify-between items-end my-4 border-b border-b-neutral pt-6 max-md:pt-20 pb-3">
-            <div class="text-4xl font-bold">FULLNAME</div>
-            <div class="text-xl">Blog</div>
-        </div>
+        <IndexHeader :title="'Blogs'" :url="'/blog'" />
 
         <template v-if="blogs">
             <!-- PAGINATION TOP -->
@@ -48,6 +45,10 @@
 </template>
 
 <script setup>
+definePageMeta({
+    middleware: ['profile']
+});
+
 const config = useRuntimeConfig();
 const apiUri = config.public.apiUri;
 
@@ -70,4 +71,5 @@ onBeforeMount(async () => {
 watchEffect(async () => {
     await fetchData();
 });
+
 </script>
