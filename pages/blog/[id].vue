@@ -34,20 +34,33 @@
 </template>
 
 <script setup>
+import 'vue3-carousel/dist/carousel.css'
+import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
+
 definePageMeta({
     middleware: ['profile']
 });
 
-import 'vue3-carousel/dist/carousel.css'
-import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
-
+const config = useRuntimeConfig();
+const apiUri = config.public.apiUri;
 const route = useRoute();
 const blogID = route.params.id;
 
-const config = useRuntimeConfig();
-const apiUri = config.public.apiUri;
-
 const blog = await $fetch('/api/blog/' + blogID)
 
+// SEO and META
+const { value: useProfile } = useState('profile');
+const fullname = `${useProfile.firstname} ${useProfile.lastname}`;
+
+const firstPhoto = blog.photos.length ? (apiUri + blog.photos[0].path) : '';
+
+useSeoMeta({
+    title: `${blog.title} - ${fullname} Blog`,
+    description: blog.content,
+    ogTitle: `${blog.title} - ${fullname} Blog`,
+    ogDescription: blog.content,
+    ogImage: firstPhoto,
+    twitterCard: 'summary_large_image',
+});
 </script>
 

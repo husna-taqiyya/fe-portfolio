@@ -41,9 +41,20 @@ definePageMeta({
 
 import ProjectThumbnail from '../../components/projectThumbnail.vue'
 
+// SEO and META
+const { value: useProfile } = useState('profile');
+const fullname = `${useProfile.firstname} ${useProfile.lastname}`;
 const config = useRuntimeConfig();
 const apiUri = config.public.apiUri;
 
+useSeoMeta({
+    title: fullname + ' Projects',
+    description: useProfile.bio,
+    ogTitle: fullname + ' Projects',
+    ogDescription: useProfile.bio,
+    ogImage: apiUri + useProfile.avatar,
+    twitterCard: 'summary_large_image',
+})
 // ambil data blogs melalui server nuxt
 const projects = ref(null);
 const maxPage = ref(1);
@@ -65,9 +76,9 @@ watchEffect(async () => {
 });
 
 // get data profile from state
-const useProfile = useState('profile');
-const profile = useProfile.value;
-const fullname = computed(() => {
-    return `${profile.firstname} ${profile.lastname}`;
-});
+// const useProfile = useState('profile');
+// const profile = useProfile.value;
+// const fullname = computed(() => {
+//     return `${profile.firstname} ${profile.lastname}`;
+// });
 </script>

@@ -49,8 +49,20 @@ definePageMeta({
     middleware: ['profile']
 });
 
+// SEO and META
+const { value: useProfile } = useState('profile');
+const fullname = `${useProfile.firstname} ${useProfile.lastname}`;
 const config = useRuntimeConfig();
 const apiUri = config.public.apiUri;
+
+useSeoMeta({
+    title: fullname + ' Blogs',
+    description: useProfile.bio,
+    ogTitle: fullname + ' Blogs',
+    ogDescription: useProfile.bio,
+    ogImage: apiUri + useProfile.avatar,
+    twitterCard: 'summary_large_image',
+})
 
 // ambil data blogs melalui server nuxt
 const blogs = ref(null);
