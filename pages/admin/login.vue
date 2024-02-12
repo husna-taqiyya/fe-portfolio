@@ -50,22 +50,20 @@ const formData = ref({
 
 const config = useRuntimeConfig();
 const apiUri = config.public.apiUri;
+
 const doLogin = async () => {
     // convert data to json
     const jsonData = JSON.stringify(formData.value);
 
-    const response = await $fetch(apiUri + '/login', {
+    await $fetch(apiUri + '/login', {
         method: 'POST',
         body: jsonData,
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         credentials: 'include'
     });
-    console.log(response)
 
     // sementara redirect ke halaman home
-    navigateTo('/');
+    navigateTo('/admin');
 }
 
 </script>
