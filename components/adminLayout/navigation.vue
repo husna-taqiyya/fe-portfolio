@@ -11,60 +11,43 @@
 
 const menus = [
     {
-        title: "Dashboard 1",
+        title: "Dashboard",
         to: "/admin",
         icon: resolveComponent("LucideLayoutDashboard")
     },
     {
-        title: "Dashboard 2",
-        to: "/admin",
+        title: "Profile",
+        to: "/admin/profile",
         icon: resolveComponent("LucideLayoutDashboard")
     },
     {
-        title: "Menu 3",
-        icon: resolveComponent("LucideLayoutDashboard"),
-        children: [
-            {
-                title: "Children 1",
-                to: "/admin",
-                icon: resolveComponent("LucideLayoutDashboard"),
-                children: [
-                    {
-                        title: "Sub Children 1",
-                        to: "/admin",
-                        icon: resolveComponent("LucideLayoutDashboard")
-                    },
-                    {
-                        title: "Sub Children 2",
-                        to: "/admin",
-                        icon: resolveComponent("LucideLayoutDashboard")
-                    },
-                ]
-            },
-        ]
+        title: "Project",
+        to: "/admin/project",
+        icon: resolveComponent("LucideLayoutDashboard")
     },
+    // {
+    //     title: "Menu 3",
+    //     icon: resolveComponent("LucideLayoutDashboard"),
+    //     children: [
+    //         {
+    //             title: "Children 1",
+    //             to: "/admin",
+    //             icon: resolveComponent("LucideLayoutDashboard"),
+    //             children: [
+    //                 {
+    //                     title: "Sub Children 1",
+    //                     to: "/admin",
+    //                     icon: resolveComponent("LucideLayoutDashboard")
+    //                 },
+    //                 {
+    //                     title: "Sub Children 2",
+    //                     to: "/admin",
+    //                     icon: resolveComponent("LucideLayoutDashboard")
+    //                 },
+    //             ]
+    //         },
+    //     ]
+    // },
 ]
-// {
-//     title: "",
-//     to: "",
-//     icon: "",
-//     children: [
-//         {
-//             title: "",
-//             to: "",
-//             icon: "",
-//         },
-//         {
-//             title: "",
-//             to: "",
-//             icon: "",
-//         },
-//         {
-//             title: "",
-//             to: "",
-//             icon: "",
-//         }
-//     ]
-// }
 
 </script>

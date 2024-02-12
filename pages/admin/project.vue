@@ -1,6 +1,6 @@
 <template>
     <div>
-        ini halaman project
+        ini halaman Project
     </div>
 </template>
 

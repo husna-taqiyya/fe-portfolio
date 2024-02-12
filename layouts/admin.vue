@@ -25,15 +25,15 @@
                 </a>
 
                 <!-- sisi kanan -->
-                <div class="grow flex justify-between items-center lg:pl-4">
+                <div class="grow flex justify-end items-center lg:pl-4">
                     <!-- breadcrumb -->
-                    <div class="text-sm breadcrumbs">
+                    <!-- <div class="text-sm breadcrumbs">
                         <ul>
                             <li><a>Home</a></li>
                             <li><a>Documents</a></li>
                             <li>Add Document</li>
                         </ul>
-                    </div>
+                    </div> -->
 
                     <!-- avatar / account -->
                     <div class="dropdown dropdown-end">

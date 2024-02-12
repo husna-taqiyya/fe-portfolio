@@ -1,6 +1,6 @@
 <template>
     <div>
-        ini halaman Register
+        ini halaman Profile
     </div>
 </template>
 
