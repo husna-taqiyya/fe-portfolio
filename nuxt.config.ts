@@ -8,9 +8,7 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  modules: [
-    'nuxt-lucide-icons'
-  ],
+  modules: ['nuxt-lucide-icons', "@pinia/nuxt"],
   runtimeConfig: {
     apiUri: '', // can be overridden by NUXT_API_URI environment variable
     public: {
