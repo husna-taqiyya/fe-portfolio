@@ -16,6 +16,19 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         if (!AuthStore.user) {
             // fetch data user
             await AuthStore.getUser();
+
+            // kalo error, atau data tetap null balik ke halaman login
+
+            if (!AuthStore.user) {
+                return navigateTo('/admin/login');
+            }
+        }
+    } else {
+        // ke halaman login
+
+        // check token, kalau ada return ke halaman index
+        if (token.value) {
+            return navigateTo('/admin');
         }
     }
 

@@ -9,7 +9,8 @@
 
 <script setup>
 definePageMeta({
-    layout: 'admin'
+    layout: 'admin',
+    middleware: ['auth']
 });
 
 import { useCounterStore } from '../../stores/counterStore';
