@@ -2,7 +2,10 @@ import { defineStore } from "pinia";
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
-
+        user: {
+            name: '',
+            email: ''
+        }
     }),
     actions: {
         async login(formData) {
@@ -13,14 +16,17 @@ export const useAuthStore = defineStore('auth', {
             // convert to json
             const jsonData = JSON.stringify(formData);
 
-            await $fetch(apiUri + '/login', {
+            const user = await $fetch(apiUri + '/login', {
                 method: 'POST',
                 body: jsonData,
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include'
             });
 
-            // redirect ke halaman home
+            // isi state user
+            this.user = user;
+
+            // redirect ke halaman admin
             navigateTo('/admin');
         },
         async logout() {
