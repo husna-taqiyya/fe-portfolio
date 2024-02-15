@@ -15,4 +15,8 @@ export default defineNuxtConfig({
       apiUri: '', // can be overridden by NUXT_PUBLIC_API_URI environment variable
     }
   },
+  routeRules: {
+    '/': { prerender: true },
+    '/admin/**': { ssr: false }
+  }
 })

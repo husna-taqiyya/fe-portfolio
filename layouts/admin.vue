@@ -21,7 +21,7 @@
                 <!-- sisi kiri -->
                 <a href="" class="max-lg:hidden flex-none flex gap-4 items-center pr-4">
                     <ImagesLion class="h-8" />
-                    <div class="font-bold">HUSNA TAQIYYA</div>
+                    <div class="font-baloo-bhai">HUSNA TAQIYYA</div>
                 </a>
 
                 <!-- sisi kanan -->

@@ -25,8 +25,8 @@
                         class="input w-full bg-[#D3C7C7]">
                 </div>
 
-                <!-- login buttom -->
-                <button @click="doLogin"
+                <!-- login button -->
+                <button @click="AuthStore.login(formData)"
                     class="font-baloo-bhai btn border-0 text-xl md:text-2xl bg-[#D3C7C7] p-10 md:px-20 py-0 lg:px-32 md:py-2 h-min text-nowrap">LOGIN
                     NOW</button>
             </div>
@@ -48,22 +48,7 @@ const formData = ref({
     password: ''
 });
 
-const config = useRuntimeConfig();
-const apiUri = config.public.apiUri;
-
-const doLogin = async () => {
-    // convert data to json
-    const jsonData = JSON.stringify(formData.value);
-
-    await $fetch(apiUri + '/login', {
-        method: 'POST',
-        body: jsonData,
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include'
-    });
-
-    // sementara redirect ke halaman home
-    navigateTo('/admin');
-}
+// AUTH STATE / PINIA
+const AuthStore = useAuthStore();
 
 </script>
