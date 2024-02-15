@@ -5,7 +5,7 @@
         <div class="lg:hidden h-[70px] relative border-b border-gray/20 px-3">
             <div class="h-full flex justify-between items-center">
                 <a href="" class="flex-none flex gap-4 items-center">
-                    <ImagesWings class="h-8" />
+                    <ImagesLion class="h-8" />
                 </a>
 
                 <label for="menu-toggle" class="btn btn-ghost">
@@ -20,8 +20,8 @@
 
                 <!-- sisi kiri -->
                 <a href="" class="max-lg:hidden flex-none flex gap-4 items-center pr-4">
-                    <ImagesWings class="h-8" />
-                    <div>HUSNA TAQIYYA</div>
+                    <ImagesLion class="h-8" />
+                    <div class="font-bold">HUSNA TAQIYYA</div>
                 </a>
 
                 <!-- sisi kanan -->
