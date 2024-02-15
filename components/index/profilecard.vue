@@ -53,7 +53,7 @@
                 </a>
                 <a v-if="profile.discord" :href="profile.discord" target="__blank"
                     class="btn btn-outline btn-circle border-neutral hover:bg-transparent hover:border-secondary">
-                    <IconsDiscord :size="20" class="text-secondary" />
+                    <IconsDiscord class="" />
                 </a>
             </div>
 
