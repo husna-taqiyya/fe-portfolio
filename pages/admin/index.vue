@@ -9,21 +9,24 @@
         <button class="btn btn-primary" @click="CounterStore.increment">Add Counter</button>
         <button class="btn btn-primary" @click="CounterStore.decrement">Dec Counter</button>
     </div>
-    <div>
-        Nama: {{ AuthStore.user.name }}
-    </div>
-    <div>
-        Email: {{ AuthStore.user.email }}
-    </div>
+
+    <template v-if="AuthStore.user">
+        <div>
+            Nama: {{ AuthStore.user.name }}
+        </div>
+        <div>
+            Email: {{ AuthStore.user.email }}
+        </div>
+    </template>
 </template>
 
 <script setup>
 definePageMeta({
-    layout: 'admin'
+    layout: 'admin',
+    middleware: ['auth']
 });
 
 import { useCounterStore } from '../../stores/counterStore';
-
 const CounterStore = useCounterStore();
 const AuthStore = useAuthStore();
 
