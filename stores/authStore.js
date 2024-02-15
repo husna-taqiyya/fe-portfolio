@@ -9,7 +9,6 @@ export const useAuthStore = defineStore('auth', {
             // get api uri
             const config = useRuntimeConfig();
             const apiUri = config.public.apiUri;
-            console.log(apiUri)
 
             // convert to json
             const jsonData = JSON.stringify(formData);
@@ -24,9 +23,19 @@ export const useAuthStore = defineStore('auth', {
             // redirect ke halaman home
             navigateTo('/admin');
         },
-        logout() {
-            // handle logout
-            console.log('handle logout')
+        async logout() {
+            // get api uri
+            const config = useRuntimeConfig();
+            const apiUri = config.public.apiUri;
+
+            await $fetch(apiUri + '/logout', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include'
+            });
+
+            // redirect ke home halaman login
+            navigateTo('/admin/login');
         },
 
     }
