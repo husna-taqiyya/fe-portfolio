@@ -16,6 +16,8 @@
                 <div class="w-full font-arc-daughter text-xl md:text-2xl">
                     <label>Email</label>
                     <input v-model="formData.email" type="text" placeholder="Email" class="input w-full bg-[#D3C7C7]">
+                    <div class="text-error text-sm text-right mr-2" v-if="errorMessages.email">{{ errorMessages.email }}
+                    </div>
                 </div>
 
                 <!-- input password -->
@@ -23,10 +25,13 @@
                     <label>Password</label>
                     <input v-model="formData.password" type="password" placeholder="Password"
                         class="input w-full bg-[#D3C7C7]">
+                    <div class="text-error text-sm text-right mr-2" v-if="errorMessages.password">{{
+                        errorMessages.password }}
+                    </div>
                 </div>
 
                 <!-- login button -->
-                <button @click="AuthStore.login(formData)"
+                <button @click="handleLogin"
                     class="font-baloo-bhai btn border-0 text-xl md:text-2xl bg-[#D3C7C7] p-10 md:px-20 py-0 lg:px-32 md:py-2 h-min text-nowrap">LOGIN
                     NOW</button>
             </div>
@@ -35,6 +40,8 @@
 </template>
 
 <script setup>
+import Joi from 'joi';
+
 definePageMeta({
     layout: false,
     middleware: ['profile', 'auth']
@@ -50,5 +57,31 @@ const formData = ref({
 
 // AUTH STATE / PINIA
 const AuthStore = useAuthStore();
+
+const errorMessages = ref({});
+const handleLogin = () => {
+
+    try {
+        // copy dari backend
+        const loginValidation = Joi.object({
+            email: Joi.string().email({ tlds: { allow: false } }).required().label("Email"),
+            password: Joi.string().min(6).max(100).required().label("Password")
+        });
+
+        const data = Validate(loginValidation, formData.value);
+
+        console.log(data);
+
+        // AuthStore.login(formData)
+    } catch (error) {
+
+        if (error instanceof Joi.ValidationError) {
+            errorMessages.value = joierror(error);
+        } else {
+            console.log('BUKAN error JOI');
+            console.log(error);
+        }
+    }
+}
 
 </script>
