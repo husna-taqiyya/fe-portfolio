@@ -20,6 +20,9 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
             // kalo error, atau data tetap null balik ke halaman login
 
             if (!AuthStore.user) {
+                // clear cookies, prevent infinite loading
+                token.value = '';
+
                 return navigateTo('/admin/login');
             }
         }

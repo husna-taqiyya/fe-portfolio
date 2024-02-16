@@ -41,23 +41,12 @@ export const useAuthStore = defineStore('auth', {
             navigateTo('/admin/login');
         },
         async getUser() {
-            // get api uri
-            const config = useRuntimeConfig();
-            const apiUri = config.public.apiUri;
+            const Api = useApiStore();
 
-            try {
-                const user = await $fetch(apiUri + '/user', {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'application/json' },
-                    credentials: 'include'
-                });
+            // fetch data using Api method
+            // return data, di taro ke state
+            this.user = await Api.get('/user');
 
-                this.user = user;
-
-            } catch (error) {
-                console.log('error');
-                console.log(error);
-            }
         }
     }
 })
