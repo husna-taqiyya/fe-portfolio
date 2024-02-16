@@ -25,6 +25,8 @@
                     <label>Password</label>
                     <input v-model="formData.password" type="password" placeholder="Password"
                         class="input w-full bg-[#D3C7C7]">
+
+                    <!-- error massage -->
                     <div class="text-error text-sm text-right mr-2" v-if="errorMessages.password">{{
                         errorMessages.password }}
                     </div>
@@ -33,7 +35,11 @@
                 <!-- login button -->
                 <button @click="handleLogin"
                     class="font-baloo-bhai btn border-0 text-xl md:text-2xl bg-[#D3C7C7] p-10 md:px-20 py-0 lg:px-32 md:py-2 h-min text-nowrap">LOGIN
-                    NOW</button>
+                    NOW
+                </button>
+
+                <div class="text-error text-sm text-right mr-2">{{ fetchError }}</div>
+
             </div>
         </div>
     </div>
@@ -59,7 +65,11 @@ const formData = ref({
 const AuthStore = useAuthStore();
 
 const errorMessages = ref({});
-const handleLogin = () => {
+const fetchError = ref('');
+const handleLogin = async () => {
+    // reset error massages
+    errorMessages.value = {};
+    fetchError.value = '';
 
     try {
         // copy dari backend
@@ -68,18 +78,17 @@ const handleLogin = () => {
             password: Joi.string().min(6).max(100).required().label("Password")
         });
 
+        // throw jika error
         const data = Validate(loginValidation, formData.value);
 
-        console.log(data);
-
-        // AuthStore.login(formData)
+        // fetch login
+        await AuthStore.login(data);
     } catch (error) {
 
         if (error instanceof Joi.ValidationError) {
             errorMessages.value = joierror(error);
         } else {
-            console.log('BUKAN error JOI');
-            console.log(error);
+            fetchError.value = error.data.message;
         }
     }
 }

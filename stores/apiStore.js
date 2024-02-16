@@ -41,11 +41,9 @@ export const useApiStore = defineStore('api', {
                 });
 
                 // RETURN DATA  
-
                 return data
             } catch (error) {
-                console.log('error');
-                console.log(error);
+                throw error;
             }
         },
         // PUT

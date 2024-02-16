@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { useApiStore } from "./apiStore";
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
@@ -6,17 +7,23 @@ export const useAuthStore = defineStore('auth', {
     }),
     actions: {
         async login(data) {
-            const Api = useApiStore();
+            try {
+                const Api = useApiStore();
 
-            // isi state user
-            this.user = await Api.post('/login', data);
+                // isi state user
+                this.user = await Api.post('/login', data);
 
-            // redirect ke halaman admin
-            navigateTo('/admin');
+                // redirect ke halaman admin
+                navigateTo('/admin');
+
+            } catch (error) {
+                throw error;
+            }
+
         },
         async logout() {
             const Api = useApiStore();
-            this.user = await Api.get('/user');
+            await Api.delete('/logout');
 
             // redirect ke home halaman login
             navigateTo('/admin/login');
