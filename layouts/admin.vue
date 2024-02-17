@@ -44,8 +44,8 @@
                         </div>
                         <div class="dropdown-content z-[2] menu bg-base-100 shadow rounded w-52">
                             <div class="p-2 border-b">
-                                <div class="font-semibold">Husna Taqiyya</div>
-                                <div class="text-xs">Administrator</div>
+                                <div class="font-semibold">{{ AuthStore.user.name }}</div>
+                                <div class="text-xs">{{ AuthStore.user.email }}</div>
                             </div>
                             <ul tabindex="0" class="p-2">
                                 <li>
@@ -54,7 +54,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <button @click="logout">
+                                    <button @click="AuthStore.logout">
                                         <LucideLogOut :size="16" />
                                         Logout
                                     </button>
@@ -90,24 +90,9 @@
 </template>
 
 <script setup>
+// AUTH STORE
+const AuthStore = useAuthStore();
 
-const config = useRuntimeConfig();
-const apiUri = config.public.apiUri;
-
-const logout = async () => {
-    await $fetch(apiUri + '/logout', {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        credentials: 'include'
-    });
-    console.log(logout)
-    console.log('logout')
-
-    // redirect ke home halaman login
-    navigateTo('/admin/login');
-}
 </script>
 
 <style scoped>
