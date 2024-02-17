@@ -15,20 +15,42 @@
             </label>
             <label class="form-control w-full max-w-xs">
                 <div class="label label-text pb-0">Password</div>
-                <input v-model="form.password" type="text" placeholder="Password"
+                <input v-model="form.password" type="password" placeholder="Password"
                     class="input input-bordered w-full max-w-xs">
                 <div class="text-error text-right text-sm p-2" v-if="errors.password">{{ errors.password }}</div>
             </label>
             <label class="form-control w-full max-w-xs">
                 <div class="label label-text pb-0">Confirm Password</div>
-                <input v-model="form.confirm_password" type="text" placeholder="Confirm Password"
+                <input v-model="form.confirm_password" type="password" placeholder="Confirm Password"
                     class="input input-bordered w-full max-w-xs">
                 <div class="text-error text-right text-sm p-2" v-if="errors.confirm_password">{{ errors.confirm_password }}
                 </div>
             </label>
         </div>
 
-        <button class="btn btn-neutral my-5">Update</button>
+        <label class="btn btn-neutral my-5" for="confirm">Update</label>
+
+        <!-- Put this part before </body> tag -->
+        <input type="checkbox" id="confirm" class="modal-toggle" />
+        <div class="modal" role="dialog">
+            <div class="modal-box">
+                <!-- x corner button -->
+                <form method="dialog">
+                    <label for="confirm" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</label>
+                </form>
+                <h3 class="font-bold text-lg">Hello!</h3>
+                <p class="py-4">Are you sure?</p>
+                <div class="modal-action">
+                    <label for="confirm" @click="handleUpdate" class="btn btn-neutral">Update</label>
+                </div>
+            </div>
+            <!-- click outside -->
+            <form method="dialog" class="modal-backdrop">
+                <label for="confirm">close</label>
+            </form>
+        </div>
+
+
 
     </div>
 </template>
@@ -51,8 +73,10 @@ const form = ref({
 
 const handleUpdate = () => {
     // kofirmasi
-    // kofirmasi
-    // kofirmasi
+
+    // validate
+
+    // fetch data update
 }
 
 </script>
