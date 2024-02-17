@@ -4,7 +4,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     // CHECK TOKEN DI COOKIES
     const token = useCookie('token');
 
-    if (to.path !== '/admin/login') {
+    if (to.path != '/admin/login') {
         // bukan halaman login
 
         // check token
