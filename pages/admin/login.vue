@@ -33,10 +33,14 @@
                 </div>
 
                 <!-- login button -->
-                <button @click="handleLogin"
-                    class="font-baloo-bhai btn border-0 text-xl md:text-2xl bg-[#D3C7C7] p-10 md:px-20 py-0 lg:px-32 md:py-2 h-min text-nowrap">LOGIN
-                    NOW
-                </button>
+                <div class="flex gap-4">
+                    <button @click="handleLogin"
+                        class="font-baloo-bhai btn border-0 text-xl md:text-2xl bg-[#D3C7C7] p-10 md:px-20 py-0 lg:px-32 md:py-2 h-min text-nowrap">
+                        LOGIN NOW
+                        <ImagesLoading class="w-10" v-if="isLoading" />
+                    </button>
+                </div>
+                <div v-if="isLoading">Loading...</div>
 
                 <div class="text-error text-sm text-right mr-2">{{ fetchError }}</div>
 
@@ -47,7 +51,6 @@
 
 <script setup>
 import Joi from 'joi';
-
 definePageMeta({
     layout: false,
     middleware: ['profile', 'auth']
@@ -66,23 +69,20 @@ const AuthStore = useAuthStore();
 
 const errorMessages = ref({});
 const fetchError = ref('');
+const isLoading = ref(false);
 const handleLogin = async () => {
+    // di halangi jika sedang loading
+    if (isLoading.value) return;
+
     // reset error massages
     errorMessages.value = {};
     fetchError.value = '';
 
+    isLoading.value = true;
     try {
-        // copy dari backend
-        const loginValidation = Joi.object({
-            email: Joi.string().email({ tlds: { allow: false } }).required().label("Email"),
-            password: Joi.string().min(6).max(100).required().label("Password")
-        });
-
-        // throw jika error
-        const data = Validate(loginValidation, formData.value);
-
         // fetch login
-        await AuthStore.login(data);
+        await AuthStore.login(formData.value);
+        // berhasil login
     } catch (error) {
 
         if (error instanceof Joi.ValidationError) {
@@ -90,6 +90,8 @@ const handleLogin = async () => {
         } else {
             fetchError.value = error.data.message;
         }
+
+        isLoading.value = false;
     }
 }
 

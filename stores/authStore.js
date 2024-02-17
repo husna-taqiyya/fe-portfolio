@@ -10,6 +10,9 @@ export const useAuthStore = defineStore('auth', {
             try {
                 const Api = useApiStore();
 
+                // throw jika error
+                data = Validate(loginValidation, data);
+
                 // isi state user
                 this.user = await Api.post('/login', data);
 
