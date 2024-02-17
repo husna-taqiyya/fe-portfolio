@@ -1,5 +1,5 @@
 <template>
-    <ul class="menu bg-neutral lg:rounded-box p-4 w-[250px] min-h-screen lg:min-h-full text-white">
+    <ul class="navigation menu bg-neutral lg:rounded-box p-4 w-[250px] min-h-screen lg:min-h-full text-white">
         <li class="my-2 font-light">MAIN MENU</li>
         <template v-for="(menu, i) in menus" :key="i">
             <AdminLayoutNavigationItem :menu="menu" />
@@ -53,8 +53,8 @@ const menus = [
 </script>
 
 <style setup>
-.menu a,
-.menu summary {
+.navigation.menu a,
+.navigation.menu summary {
     position: relative;
     margin-bottom: 0.25rem;
     display: flex;
@@ -64,12 +64,12 @@ const menus = [
     padding-left: 1.25rem;
 }
 
-.menu a:focus {
+.navigation.menu a:focus {
     color: #fff;
 }
 
-.menu a.router-link-exact-active::before,
-.menu details[open]>summary::before {
+.navigation.menu a.router-link-exact-active::before,
+.navigation.menu details[open]>summary::before {
     content: "";
     position: absolute;
     top: 0px;
