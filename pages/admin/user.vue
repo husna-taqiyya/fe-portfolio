@@ -14,20 +14,20 @@
                 <div class="text-error text-right text-sm p-2" v-if="errors.email">{{ errors.email }}</div>
             </label>
             <label class="form-control w-full max-w-xs">
-                <div class="label label-text pb-0">Current Password</div>
+                <div class="label label-text pb-0">Old Password</div>
                 <input v-model="form.current_password" type="password" placeholder="Password"
                     class="input input-bordered w-full max-w-xs">
                 <div class="text-error text-right text-sm p-2" v-if="errors.current_password">{{ errors.current_password }}
                 </div>
             </label>
             <label class="form-control w-full max-w-xs">
-                <div class="label label-text pb-0">Password</div>
+                <div class="label label-text pb-0">New Password</div>
                 <input v-model="form.password" type="password" placeholder="Password"
                     class="input input-bordered w-full max-w-xs">
                 <div class="text-error text-right text-sm p-2" v-if="errors.password">{{ errors.password }}</div>
             </label>
             <label class="form-control w-full max-w-xs">
-                <div class="label label-text pb-0">Confirm Password</div>
+                <div class="label label-text pb-0">Confirm New Password</div>
                 <input v-model="form.confirm_password" type="password" placeholder="Confirm Password"
                     class="input input-bordered w-full max-w-xs">
                 <div class="text-error text-right text-sm p-2" v-if="errors.confirm_password">{{ errors.confirm_password }}
@@ -40,6 +40,7 @@
             <div class="text-error text-sm text-right mr-2">{{ fetchError }}</div>
         </div>
 
+        <!-- MODAL CONFIRMATION -->
         <!-- Put this part before </body> tag -->
         <input type="checkbox" id="confirm" class="modal-toggle" />
         <div class="modal" role="dialog">
@@ -58,6 +59,25 @@
             <!-- click outside -->
             <form method="dialog" class="modal-backdrop">
                 <label for="confirm">Close</label>
+            </form>
+        </div>
+
+        <!-- MODAL SUCCESS -->
+        <input v-model="success" type="checkbox" id="success" class="modal-toggle" />
+        <div class="modal" role="dialog">
+            <div class="modal-box">
+                <!-- x corner button -->
+                <form method="dialog">
+                    <label for="success" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</label>
+                </form>
+                <h3 class="font-bold text-lg">SUCCESS!</h3>
+                <div class="modal-action">
+                    <label for="success" class="btn">Close</label>
+                </div>
+            </div>
+            <!-- click outside -->
+            <form method="dialog" class="modal-backdrop">
+                <label for="success">Close</label>
             </form>
         </div>
     </div>
@@ -83,6 +103,8 @@ const form = ref({
     confirm_password: ''
 });
 
+const success = ref(false);
+
 const handleUpdate = async () => {
     // reset errors
     errors.value = {}
@@ -91,6 +113,7 @@ const handleUpdate = async () => {
     try {
         await AuthStore.update(form.value);
         // fetch data update
+        success.value = true;
     } catch (error) {
         console.log(error);
         if (error instanceof Joi.ValidationError) {

@@ -13,10 +13,10 @@ export const updateUserValidation = Joi.object({
     name: isString.label("Name").required(),
     email: isEmail.label("Email").required(),
     current_password: isPassword.label('Old Password').required(),
-    password: isPassword.label('Password').required(),
+    password: isPassword.label('New Password').required(),
     confirm_password: isPassword.required()
         .valid(Joi.ref('password'))
-        .label('Password Confirm')
+        .label('Confirm Password')
         .options({
             messages: {
                 'anly.only': '{{#label}} not match'
