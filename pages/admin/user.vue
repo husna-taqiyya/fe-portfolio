@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="font-semibold mb-4 border border-b-white">USER SETTINGS</div>
+        <div class="font-semibold mb-4 ">USER SETTINGS</div>
         <div class="flex flex-col gap-4">
             <label class="form-control w-full max-w-xs">
                 <div class="label label-text pb-0">Name</div>
@@ -63,23 +63,7 @@
         </div>
 
         <!-- MODAL SUCCESS -->
-        <input v-model="success" type="checkbox" id="success" class="modal-toggle" />
-        <div class="modal" role="dialog">
-            <div class="modal-box">
-                <!-- x corner button -->
-                <form method="dialog">
-                    <label for="success" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</label>
-                </form>
-                <h3 class="font-bold text-lg">SUCCESS!</h3>
-                <div class="modal-action">
-                    <label for="success" class="btn">Close</label>
-                </div>
-            </div>
-            <!-- click outside -->
-            <form method="dialog" class="modal-backdrop">
-                <label for="success">Close</label>
-            </form>
-        </div>
+        <AdminModalSuccess :show="success" @close="success = false" />
     </div>
 </template>
 
