@@ -70,6 +70,7 @@ const AuthStore = useAuthStore();
 const errorMessages = ref({});
 const fetchError = ref('');
 const isLoading = ref(false);
+
 const handleLogin = async () => {
     // di halangi jika sedang loading
     if (isLoading.value) return;

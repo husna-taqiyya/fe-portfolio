@@ -1,5 +1,5 @@
 <template>
-    <div data-theme="nord" class="min-h-screen flex text-default">
+    <div data-theme="black" class="min-h-screen flex text-default">
         <!-- MAIN CONTENT -->
         <div class="min-h-screen grow">
             <slot />

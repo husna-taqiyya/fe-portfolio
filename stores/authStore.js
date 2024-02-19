@@ -38,6 +38,21 @@ export const useAuthStore = defineStore('auth', {
             // return data, di taro ke state
             this.user = await Api.get('/user');
 
+        },
+        async update(data) {
+            console.log('data sebelum validasi')
+            console.log(data);
+
+            data = Validate(updateUserValidation, data);
+
+            console.log('data sesudah validasi')
+            console.log(data);
+
+            // fetch
+            const Api = useApiStore();
+
+            // fetch user update, dan update statenya
+            this.user = await Api.put('/user', data);
         }
     }
-})
+});
