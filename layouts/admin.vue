@@ -90,6 +90,8 @@
 </template>
 
 <script setup>
+import 'v-calendar/style.css';
+
 // AUTH STORE
 const AuthStore = useAuthStore();
 

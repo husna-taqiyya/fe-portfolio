@@ -20,9 +20,12 @@
     "vue-router": "^4.2.5"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.8",
+    "dayjs": "^1.11.10",
     "joi": "^17.12.1",
     "nuxt-lucide-icons": "^1.0.3",
     "pinia": "^2.1.7",
+    "v-calendar": "^3.1.2",
     "vue3-carousel": "^0.3.1"
   }
 }

@@ -123,7 +123,7 @@ export const useApiStore = defineStore('api', {
             // selain 401 & 400
             throw createError({
                 statusCode: error.status || 500, // <- default code 500
-                statusMessage: error.data.message || 'Internal Server Error!' // <- default massage
+                statusMessage: error.message || 'Internal Server Error!' // <- default massage
             });
         }
     }
