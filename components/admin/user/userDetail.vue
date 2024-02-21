@@ -13,34 +13,10 @@
     </div>
 
     <div class="flex items-center gap-2">
-        <label for="confirm" class="btn btn-neutral my-5">Update</label>
+        <label @click="confirm = true" class="btn btn-neutral my-5">Update</label>
         <div class="text-error text-sm text-right mr-2">{{ fetchError }}</div>
     </div>
-
-    <!-- MODAL CONFIRMATION -->
-    <AdminModalConfirm :show="confirm" />
-    <!-- Put this part before </body> tag -->
-    <!-- <input type="checkbox" id="confirm" class="modal-toggle" /> -->
-    <!-- <div class="modal" role="dialog"> -->
-    <!-- <div class="modal-box"> -->
-    <!-- x corner button -->
-    <!-- <form method="dialog"> -->
-    <!-- <label for="confirm" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</label> -->
-    <!-- </form>
-            <h3 class="font-bold text-lg">Hello!</h3>
-            <p class="py-4">Are you sure?</p>
-            <div class="modal-action"> -->
-    <!-- <label for="confirm" class="btn">Close</label>
-                <label for="confirm" @click="handleUpdate" class="btn btn-neutral">Update</label>
-            </div>
-        </div> -->
-    <!-- click outside -->
-    <!-- <form method="dialog" class="modal-backdrop">
-        <label for="confirm">Close</label>
-    </form>
-    </div> -->
-
-    <!-- MODAL SUCCESS -->
+    <AdminModalConfirm :show="confirm" @close="confirm = false" @saved="handleUpdate" />
     <AdminModalSuccess :show="success" @close="success = false" />
 </template>
 
@@ -55,11 +31,9 @@ const fetchError = ref('');
 const form = ref({
     name: AuthStore.user.name,
     email: AuthStore.user.email,
-    current_password: '',
-    password: '',
-    confirm_password: ''
 });
 
+const confirm = ref(false);
 const success = ref(false);
 
 const handleUpdate = async () => {
@@ -70,9 +44,11 @@ const handleUpdate = async () => {
     try {
         await AuthStore.update(form.value);
         // fetch data update
+        confirm.value = false;
         success.value = true;
     } catch (error) {
         console.log(error);
+        confirm.value = false;
         if (error instanceof Joi.ValidationError) {
             // joi error
             errors.value = joierror(error);

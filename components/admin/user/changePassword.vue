@@ -32,7 +32,6 @@
 
         <!-- MODAL CONFIRMATION -->
         <!-- Put this part before </body> tag -->
-        <input type="checkbox" id="confirm" class="modal-toggle" />
         <div class="modal" role="dialog">
             <div class="modal-box">
                 <!-- x corner button -->
@@ -43,7 +42,7 @@
                 <p class="py-4">Are you sure?</p>
                 <div class="modal-action">
                     <label for="confirm" class="btn">Close</label>
-                    <label for="confirm" @click="handleUpdate" class="btn btn-neutral">Update</label>
+                    <label for="confirm" @click="handleUpdate" class="btn btn-success">Update</label>
                 </div>
             </div>
             <!-- click outside -->
@@ -66,8 +65,6 @@ const errors = ref({});
 const fetchError = ref('');
 
 const form = ref({
-    name: AuthStore.user.name,
-    email: AuthStore.user.email,
     current_password: '',
     password: '',
     confirm_password: ''

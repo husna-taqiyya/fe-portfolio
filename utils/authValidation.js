@@ -10,11 +10,11 @@ export const loginValidation = Joi.object({
 });
 
 export const updateUserValidation = Joi.object({
-    name: isString.label("Name").required(),
-    email: isEmail.label("Email").required(),
-    current_password: isPassword.label('Old Password').required(),
-    password: isPassword.label('New Password').required(),
-    confirm_password: isPassword.required()
+    name: isString.label("Name"),
+    email: isEmail.label("Email"),
+    current_password: isPassword.label('Old Password'),
+    password: isPassword.label('New Password'),
+    confirm_password: isPassword
         .valid(Joi.ref('password'))
         .label('Confirm Password')
         .options({

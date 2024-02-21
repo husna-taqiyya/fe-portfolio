@@ -8,7 +8,7 @@
                 <ImagesProgrammer class="w-[125%]" />
             </div>
             <div
-                class="max-lg:row-span-6 bg-[#EDD6D6] flex flex-col gap-6 lg:gap-12 justify-center items-center px-10 lg:px-32">
+                class="max-lg:row-span-6 bg-[#eb93dc] flex flex-col gap-6 lg:gap-12 justify-center items-center px-10 lg:px-32">
                 <!-- nama -->
                 <div class="font-bungee-shade text-nowrap text-3xl md:text-6xl lg:text-4xl xl:text-6xl">{{ fullname }}</div>
 
