@@ -13,10 +13,19 @@
     </div>
 
     <div class="flex items-center gap-2">
-        <label @click="confirm = true" class="btn btn-neutral my-5">Update</label>
+        <div class="flex">
+            <button @click="confirm = true" class="btn btn-neutral my-5">Update</button>
+            <ImagesLoading v-show="isLoading" class="w-10" />
+        </div>
         <div class="text-error text-sm text-right mr-2">{{ fetchError }}</div>
     </div>
-    <AdminModalConfirm :show="confirm" @close="confirm = false" @saved="handleUpdate" />
+    <!-- MODAL CONFIRMATION -->
+    <AdminModalConfirm :show="confirm" @close="confirm = false" @saved="handleUpdate">
+        <h3 class="font-bold text-lg">Hello!</h3>
+        <p class="py-4">Are you sure to update user detail?</p>
+    </AdminModalConfirm>
+
+    <!-- MODAL SUCCESS -->
     <AdminModalSuccess :show="success" @close="success = false" />
 </template>
 
@@ -35,19 +44,22 @@ const form = ref({
 
 const confirm = ref(false);
 const success = ref(false);
+const isLoading = ref(false);
 
 const handleUpdate = async () => {
     // reset errors
     errors.value = {}
     fetchError.value = '';
+    isLoading.value = true;
 
     try {
         await AuthStore.update(form.value);
         // fetch data update
         confirm.value = false;
         success.value = true;
+        isLoading.value = false;
     } catch (error) {
-        console.log(error);
+        isLoading.value = false;
         confirm.value = false;
         if (error instanceof Joi.ValidationError) {
             // joi error

@@ -5,11 +5,12 @@
             <form method="dialog">
                 <label @click="$emit('close')" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</label>
             </form>
-            <h3 class="font-bold text-lg">Hello!</h3>
-            <p class="py-4">Are you sure?</p>
+            <!-- slot -->
+            <slot />
+
             <div class="modal-action">
                 <label @click="$emit('close')" class="btn">Close</label>
-                <label class="btn text-white btn-success" @click="$emit('saved')">Save</label>
+                <label class="btn text-white btn-success" @click="$emit('saved')">{{ text_save || 'Update' }}</label>
             </div>
         </div>
         <form method="dialog" class="modal-backdrop">
@@ -20,7 +21,8 @@
 
 <script setup>
 const props = defineProps({
-    show: Boolean
+    show: Boolean,
+    text_save: String
 });
 
 defineEmits(['close', 'saved']);

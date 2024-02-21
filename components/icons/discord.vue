@@ -1,5 +1,5 @@
 <template>
-    <svg width="25px" height="25px" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg"
+    <svg width="25px" height="25px" viewBox="0 0 24.00 24.00" fill="#000000" xmlns="http://www.w3.org/2000/svg"
         stroke="#dddddd" stroke-width="0.9120000000000001">
         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
