@@ -11,13 +11,13 @@ export const isUpdateProfile = Joi.object({
     addres: isText,
     phone: isString100,
     job: isString100,
-    bio: isText,
-    website: isURI,
-    github: isURI,
-    gitlab: isURI,
-    instagram: isURI,
-    facebook: isURI,
-    twitter: isURI,
-    linkedin: isURI,
-    discord: isURI
-});
+    bio: isText.allow(null, ''),
+    website: isURI.allow(null, ''),
+    github: isURI.allow(null, ''),
+    gitlab: isURI.allow(null, ''),
+    instagram: isURI.allow(null, ''),
+    facebook: isURI.allow(null, ''),
+    twitter: isURI.allow(null, ''),
+    linkedin: isURI.allow(null, ''),
+    discord: isURI.allow(null, '')
+}); 

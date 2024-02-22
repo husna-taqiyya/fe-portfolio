@@ -37,6 +37,7 @@ export const useAuthStore = defineStore('auth', {
             // fetch data using Api method
             // return data, di taro ke state
             this.user = await Api.get('/user');
+            console.log(this.user)
 
         },
         async update(data) {

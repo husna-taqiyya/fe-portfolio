@@ -42,6 +42,7 @@ const form = ref({
     email: AuthStore.user.email,
 });
 
+// confirmation
 const confirm = ref(false);
 const success = ref(false);
 const isLoading = ref(false);

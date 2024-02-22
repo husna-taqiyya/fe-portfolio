@@ -72,9 +72,14 @@
         <div>
             <div>
                 Avatar
-                <div v-if="!ProfileStore.profile.avatar" class="w-60 aspect-video bg-neutral/30 md:mx-auto rounded-xl">
+                <div class="w-60 aspect-video bg-neutral/30 md:mx-auto rounded-xl">
+                    <div v-if="!avatar" class="w-full h-full"></div>
+                    <img v-else :src="avatar" class="object-cover min-h-full min-w-full">
                 </div>
-                <img v-else :src="apiUri + ProfileStore.profile.avatar" class="object-cover min-h-full min-w-full">
+                <div class="flex md:justify-center mt-2">
+                    <input @change="handleFile" type="file" accept="image/*"
+                        class="file-input file-input-bordered w-full max-w-xs" />
+                </div>
             </div>
             <label class="form-control w-full">
                 <div class="label label-text pb-0">Bio</div>
@@ -84,9 +89,20 @@
         </div>
     </div>
     <div>
-        <button @click="handleUpdate" class="btn btn-neutral float-right mt-5">Update</button>
+        <div class="flex">
+            <button @click="confirm = true" class="btn btn-neutral my-5">Update</button>
+            <ImagesLoading v-show="isLoading" class="w-10" />
+        </div>
         <div class="text-error text-sm text-right">{{ fetchError }}</div>
     </div>
+    <!-- MODAL CONFIRMATION -->
+    <AdminModalConfirm :show="confirm" @close="confirm = false" @saved="handleUpdate">
+        <h3 class="font-bold text-lg">Hello!</h3>
+        <p class="py-4">Are you sure to update profile?</p>
+    </AdminModalConfirm>
+
+    <!-- MODAL SUCCESS -->
+    <AdminModalSuccess :show="success" @close="success = false" />
 </template>
 
 <script setup>
@@ -99,15 +115,13 @@ const apiUri = config.public.apiUri;
 
 const ProfileStore = useProfileStore();
 
-const errors = ref({});
-const fetchError = ref('');
-
 const formData = ref({
     email: ProfileStore.profile.email,
     firstname: ProfileStore.profile.firstname,
     lastname: ProfileStore.profile.lastname,
     website: ProfileStore.profile.website,
     dob: ProfileStore.profile.dob,
+    phone: ProfileStore.profile.phone,
     addres: ProfileStore.profile.addres,
     city: ProfileStore.profile.city,
     country: ProfileStore.profile.country,
@@ -115,21 +129,67 @@ const formData = ref({
     job: ProfileStore.profile.job
 });
 
-const handleUpdate = async () => {
-    // reset error
-    errors.value = {}
-    fetchError.value = ''
+// AVATAR
+const avatar = ref(
+    ProfileStore.profile.avatar
+        ? apiUri + ProfileStore.profile.avatar
+        : null
+)
 
-    try {
-        await ProfileStore.update(formData.value);
-    } catch (error) {
-        console.log(error);
-        if (error instanceof Joi.ValidationError) {
-            // joi error
-            errors.value = joierror(error);
-        } else {
-            //fetch error
-            fetchError.value = error.data.message;
+let file_avatar = null;
+
+const handleFile = (e) => {
+    if (e.target.files.length) {
+        const file = e.target.files[0];
+        file_avatar = file;
+
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            avatar.value = reader.result;
+        }
+    }
+}
+
+// confirmation
+const confirm = ref(false);
+const success = ref(false);
+const isLoading = ref(false);
+
+// handle update
+const errors = ref({});
+const fetchError = ref('');
+const handleUpdate = async () => {
+    // do update when isLoading == false
+    if (isLoading.value == false) {
+        isLoading.value = true;
+
+        confirm.value = false;
+        // reset error
+        errors.value = {};
+        fetchError.value = '';
+
+        try {
+            await ProfileStore.update(formData.value, file_avatar);
+            success.value = true;
+            isLoading.value = false;
+        } catch (error) {
+            console.log(error);
+            // reset loading indicator
+            isLoading.value = false;
+
+            if (error instanceof Joi.ValidationError) {
+                // joi error
+                errors.value = joierror(error);
+            } else {
+                if (condition) {
+                    //fetch error
+                    fetchError.value = error.data.message;
+                } else {
+                    // code error                    
+                    console.log(error)
+                }
+            }
         }
     }
 }

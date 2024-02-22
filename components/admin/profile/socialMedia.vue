@@ -44,13 +44,28 @@
             <div class="text-error text-right text-sm p-2" v-if="errors.discord">{{ errors.discord }}</div>
         </label>
     </div>
-    <button class="btn btn-neutral float-right mt-5">Update</button>
+    <div>
+        <div class="flex">
+            <button @click="confirm = true" class="btn btn-neutral my-5">Update</button>
+            <ImagesLoading v-show="isLoading" class="w-10" />
+        </div>
+        <div class="text-error text-sm text-right">{{ fetchError }}</div>
+    </div>
+    <!-- MODAL CONFIRMATION -->
+    <AdminModalConfirm :show="confirm" @close="confirm = false" @saved="handleUpdate">
+        <h3 class="font-bold text-lg">Hello!</h3>
+        <p class="py-4">Are you sure to update profile?</p>
+    </AdminModalConfirm>
+
+    <!-- MODAL SUCCESS -->
+    <AdminModalSuccess :show="success" @close="success = false" />
 </template>
 
 <script setup>
+import Joi from 'joi';
+
 const ProfileStore = useProfileStore();
 
-const errors = ref({});
 const formData = ref({
     github: ProfileStore.profile.github,
     gitlab: ProfileStore.profile.gitlab,
@@ -60,5 +75,44 @@ const formData = ref({
     linkedin: ProfileStore.profile.linkedin,
     discord: ProfileStore.profile.discord
 });
+
+// confirmation
+const confirm = ref(false);
+const success = ref(false);
+const isLoading = ref(false);
+
+// handle Update
+const errors = ref({});
+const fetchError = ref('');
+const handleUpdate = async () => {
+    // do update when isLoading == false
+    if (isLoading.value == false) {
+        isLoading.value = true;
+
+        confirm.value = false;
+        // reset error
+        errors.value = {};
+        fetchError.value = '';
+
+        try {
+            await ProfileStore.update(formData.value);
+            success.value = true;
+            isLoading.value = false;
+        } catch (error) {
+            console.log(error);
+            // reset loading indicator
+            isLoading.value = false;
+
+            if (error instanceof Joi.ValidationError) {
+                // joi error
+                errors.value = joierror(error);
+            } else {
+                //fetch error
+                fetchError.value = error.data.message;
+            }
+        }
+    }
+}
+
 
 </script>
