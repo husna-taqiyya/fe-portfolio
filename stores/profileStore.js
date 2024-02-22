@@ -30,15 +30,24 @@ export const useProfileStore = defineStore('profile', {
                 }
                 formData.append(key, value);
             }
-            console.log(formData)
 
             formData.append('avatar', avatar);
 
-            // CARA YANG KEDUA
-
-            // console.log(avatar);
-
             this.profile = await Api.put('/profile', formData);
+        },
+
+        async update2(data, avatar) {
+            const Api = useApiStore();
+
+            // validate
+            data = Validate(isUpdateProfile, data);
+
+            if (avatar) {
+                const formData = new FormData();
+                formData.append('avatar', avatar);
+
+                this.profile = await Api.put('/profile', formData);
+            }
         }
     }
 }); 

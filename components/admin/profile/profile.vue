@@ -164,6 +164,7 @@ const handleUpdate = async () => {
     if (isLoading.value == false) {
         isLoading.value = true;
 
+        // close confirm modal
         confirm.value = false;
         // reset error
         errors.value = {};
@@ -172,9 +173,9 @@ const handleUpdate = async () => {
         try {
             await ProfileStore.update(formData.value, file_avatar);
             success.value = true;
+            // close loading indicator
             isLoading.value = false;
         } catch (error) {
-            console.log(error);
             // reset loading indicator
             isLoading.value = false;
 
