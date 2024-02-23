@@ -18,7 +18,12 @@ const menus = [
     {
         title: "Profile",
         to: "/admin/profile",
-        icon: resolveComponent("LucideLayoutDashboard")
+        icon: resolveComponent("LucideUserRound")
+    },
+    {
+        title: "Education",
+        to: "/admin/education",
+        icon: resolveComponent("LucideGraduationCap")
     },
     {
         title: "Project",

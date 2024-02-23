@@ -10,9 +10,7 @@
 
             <div class="modal-action">
                 <label @click="$emit('close')" class="btn">Close</label>
-                <label class="btn text-white btn-success" @click="$emit('saved')">{{ text_save || 'Update' }}
-                    <ImagesLoading v-show="IsLoading" class="w-10" />
-                </label>
+                <label class="btn text-white btn-success" @click="$emit('delete')">Delete</label>
             </div>
         </div>
         <form method="dialog" class="modal-backdrop">
@@ -22,18 +20,20 @@
 </template>
 
 <script setup>
-defineEmits(['close', 'saved']);
 const props = defineProps({
     show: Boolean,
-    text_save: String
+    data: Object
 });
 
+const emit = defineEmits(['close', 'delete']);
+
 const show_modal = ref(false);
-const IsLoading = ref(false);
+
 watchEffect(() => {
     show_modal.value = props.show;
-    if (props.show) {
-        IsLoading.value = false;
-    }
 });
+
+const handleRemove = () => {
+    console.log('delete');
+}
 </script>
