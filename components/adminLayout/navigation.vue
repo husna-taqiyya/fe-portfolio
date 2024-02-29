@@ -35,6 +35,11 @@ const menus = [
         to: "/admin/experience",
         icon: resolveComponent("LucideGraduationCap")
     },
+    {
+        title: "Skill",
+        to: "/admin/skill",
+        icon: resolveComponent("LucideGraduationCap")
+    },
     // {
     //     title: "Menu 3",
     //     icon: resolveComponent("LucideLayoutDashboard"),
