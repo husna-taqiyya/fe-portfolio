@@ -31,17 +31,23 @@
                 <div class="text-error text-right text-sm" v-if="errors.degree">{{ errors.degree }}</div>
             </label>
             <!-- START YEAR -->
-            <label class="form-control w-full max-w-xs">
+            <label class="form-control">
                 <div class="label label-text">Start Year</div>
-                <input v-model="formData.startYear" type="text" placeholder="Start Year"
-                    class="input input-bordered w-full max-w-xs">
+
+                <div class="flex items-center gap-2">
+                    <input v-model="formData.startYear" type="text" placeholder="Start Year"
+                        class="input input-bordered w-full max-w-xs" />
+                    <input type="checkbox" v-model="isChecked" class="checkbox" @change="handlePresent" /> PRESENT
+                </div>
+
                 <div class="text-error text-right text-sm" v-if="errors.startYear">{{ errors.startYear }}</div>
             </label>
+
             <!-- END YEAR -->
             <label class="form-control w-full max-w-xs">
                 <div class="label label-text">End Year</div>
-                <input v-model="formData.endYear" type="text" placeholder="End Year"
-                    class="input input-bordered w-full max-w-xs">
+                <input v-model="formData.endYear" type="text" placeholder="Type Here"
+                    class="input input-bordered w-full max-w-xs" :disabled="isChecked" />
                 <div class="text-error text-right text-sm" v-if="errors.endYear">{{ errors.endYear }}</div>
             </label>
 
@@ -75,6 +81,7 @@ const isLoading = ref(false);
 const formData = ref({});
 const fetchError = ref('');
 const errors = ref({});
+const isChecked = ref(false);
 
 watchEffect(() => {
     show_modal.value = props.show;
@@ -85,11 +92,23 @@ watchEffect(() => {
         startYear: props.data ? props.data.startYear : '',
         endYear: props.data ? props.data.endYear : '',
         major: props.data ? props.data.major : '',
-        degree: props.data ? props.data.degree : ''
+        degree: props.data ? props.data.degree : '',
+
     }
-    console.log('props.data')
-    console.log(props.data)
+
+    isChecked.value = props.data ? props.data.endYear == null : false;
 });
+
+// handle Present
+const handlePresent = (e) => {
+    // ambil value, tercentang atau tdk
+    isChecked.value = e.target.checked;
+
+    if (isChecked.value) {
+        formData.value.endYear = '';
+    }
+}
+
 
 // handle save 
 const EduStore = useEducationStore();
