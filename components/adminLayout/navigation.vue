@@ -33,7 +33,7 @@ const menus = [
     {
         title: "Experience",
         to: "/admin/experience",
-        icon: resolveComponent("LucideGraduationCap")
+        icon: resolveComponent("LucideBriefcase")
     },
     {
         title: "Skill",

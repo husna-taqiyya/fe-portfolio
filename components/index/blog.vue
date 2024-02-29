@@ -8,7 +8,7 @@
             <div class="text-4xl font-semibold">Latest Blog</div>
 
             <!-- LIST BLOG -->
-            <NuxtLink :to="'blog/' + blog.id" class="grid grid-cols-10 gap-3 group hover:bg-secondary p-2 rounded-xl"
+            <NuxtLink :to="'blog/' + blog.id" class="grid grid-cols-10 gap-3 group hover:bg-sky-200 p-2 rounded-xl"
                 v-for="(blog, i) in blogs" :key="i">
                 <div class="col-span-4 xl:col-span-3 rounded-lg">
                     <!-- photo dummy -->

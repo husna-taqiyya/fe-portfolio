@@ -1,5 +1,5 @@
 <template>
-    <div data-theme="nord" class="min-h-screen flex text-default">
+    <div class="bg-gradient-to-r from-indigo-500 min-h-screen flex text-default">
         <!-- MAIN CONTENT -->
         <div class="min-h-screen grow">
             <slot />
@@ -55,7 +55,7 @@ const menus = [
         path: '/',
         hash: '#education',
         title: 'Education',
-        icon: resolveComponent('LucideBrifecase')
+        icon: resolveComponent('LucideBriefcase')
     },
     {
         path: '/',

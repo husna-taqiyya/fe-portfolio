@@ -1,7 +1,12 @@
 <template>
     <div>
-        <div class="font-semibold text-xl mb-4 border-b-neutral/10">
-            <div>Experience</div>
+        <div class="font-semibold mb-6 pb-2 border-b border-b-neutral flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <LucideBriefcase :size="26" /> E X P E R I E N C E
+            </div>
+            <button @click="editData = null; showForm = true" class="btn btn-neutral">
+                <LucidePlus :size="16" /> Add Experience
+            </button>
         </div>
 
         <input v-model="filter" type="text" placeholder="Search" class="input input-sm mb-4 input-bordered w-full max-w-xs">
@@ -51,6 +56,10 @@
 
         <!-- modal success alert -->
         <AdminModalSuccess :show="showSuccessModal" @close="showSuccessModal = false" />
+
+        <!-- FORM MODAL -->
+        <AdminExperienceForm :data="editData" :show="showForm" text_save="saved" @close="showForm = false" @saved="saved" />
+
     </div>
 </template>
 
@@ -105,4 +114,13 @@ const handleRemove = async () => {
         console.log(error);
     }
 }
+
+// EDIT
+const showForm = ref(false);
+const editData = ref(null);
+
+const saved = () => {
+    console.log('saved');
+}
+
 </script>
