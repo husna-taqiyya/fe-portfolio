@@ -1,12 +1,7 @@
 <template>
     <div>
-        <div class="font-semibold mb-6 pb-2 border-b border-b-neutral flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <LucideGraduationCap :size="26" /> E D U C A T I O N
-            </div>
-            <button class="btn btn-neutral" @click="showForm = true">
-                <LucidePlus :size="16" /> Add Education
-            </button>
+        <div class="font-semibold text-xl mb-4 border-b-neutral/10">
+            <div>Experience</div>
         </div>
 
         <input v-model="filter" type="text" placeholder="Search" class="input input-sm mb-4 input-bordered w-full max-w-xs">
@@ -16,26 +11,28 @@
                 <!-- head -->
                 <thead>
                     <tr>
-                        <th>Institution</th>
-                        <th class="text-center">Periode</th>
-                        <th class="text-center">Major</th>
-                        <th class="text-center">Degree</th>
-                        <th class="text-center">Action</th>
+                        <th>title</th>
+                        <td>company</td>
+                        <td>location</td>
+                        <td>description</td>
+                        <td>Date</td>
+                        <td>Action</td>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- row 1 -->
-                    <tr v-for="edu in dataTable" :key="edu.id">
-                        <th>{{ edu.institutionName }}</th>
-                        <td class="text-center">{{ edu.startYear }} - {{ edu.endYear }}</td>
-                        <td class="text-center">{{ edu.major }}</td>
-                        <td class="text-center">{{ edu.degree }}</td>
+                    <tr v-for="exp in dataTable" :key="exp.id">
+                        <th>{{ exp.title }}</th>
+                        <td class="text-center">{{ exp.company }}</td>
+                        <td class="text-center">{{ exp.location }}</td>
+                        <td class="text-center">{{ exp.description }}</td>
+                        <td class="text-center">{{ exp.readStartDate }} - {{ exp.readEndDate }}</td>
                         <td>
                             <div class="flex justify-center gap-2">
-                                <button @click="showRemoveModal = true; removeData = edu" class="btn btn-error btn-circle">
+                                <button @click="showRemoveModal = true; removeData = exp" class="btn btn-error btn-circle">
                                     <LucidePencilLine :size="16" />
                                 </button>
-                                <button @click="showRemoveModal = true; removeData = edu"
+                                <button @click="showRemoveModal = true; removeData = exp"
                                     class="btn btn-neutral btn-circle">
                                     <LucideTrash2 :size="16" />
                                 </button>
@@ -45,20 +42,15 @@
                 </tbody>
             </table>
         </div>
-
         <!-- modal confirmation -->
         <AdminModalConfirm :show="showRemoveModal" text_save="Remove" @close="showRemoveModal = false"
             @saved="handleRemove">
             Are you sure to remove
-            <span v-if="removeData" class="font-bold">{{ removeData.institutionName }} ?</span>
+            <span v-if="removeData" class="font-bold">{{ removeData.title }} ?</span>
         </AdminModalConfirm>
 
         <!-- modal success alert -->
         <AdminModalSuccess :show="showSuccessModal" @close="showSuccessModal = false" />
-
-        <!-- FORM MODAL -->
-        <AdminEducationForm :show="showForm" text_save="saved" @close="showForm = false" @saved="" />
-
     </div>
 </template>
 
@@ -68,9 +60,9 @@ definePageMeta({
     middleware: ['auth']
 });
 
-const EduStore = useEducationStore();
+const ExpStore = useExperienceStore();
 onBeforeMount(async () => {
-    await EduStore.get();
+    await ExpStore.get();
 });
 
 const filter = ref('');
@@ -78,15 +70,15 @@ const dataTable = computed(() => {
     const search = filter.value.toLowerCase();
 
     if (search != '') {
-        return EduStore.educations.filter(edu => {
+        return ExpStore.experiences.filter(exp => {
             // pastikan huruf lower
-            const institutionName = edu.institutionName.toLowerCase();
-            return institutionName.includes(search);
+            const title = exp.title.toLowerCase();
+            return title.includes(search);
         });
 
     } else {
         // return semua data
-        return EduStore.educations;
+        return ExpStore.experiences;
     }
 });
 
@@ -99,7 +91,7 @@ const handleRemove = async () => {
         const id = removeData.value.id;
 
         // proses delete
-        await EduStore.remove(id);
+        await ExpStore.remove(id);
 
         // hide modal
         showRemoveModal.value = false;
@@ -108,12 +100,9 @@ const handleRemove = async () => {
         showSuccessModal.value = true;
 
         // refresh data
-        await EduStore.get();
+        await ExpStore.get();
     } catch (error) {
         console.log(error);
     }
 }
-
-const showForm = ref(false);
-
 </script>
