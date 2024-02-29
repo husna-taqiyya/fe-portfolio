@@ -21,14 +21,14 @@ const menus = [
         icon: resolveComponent("LucideUserRound")
     },
     {
-        title: "Education",
-        to: "/admin/education",
-        icon: resolveComponent("LucideGraduationCap")
-    },
-    {
         title: "Project",
         to: "/admin/project",
         icon: resolveComponent("LucideLayoutDashboard")
+    },
+    {
+        title: "Education",
+        to: "/admin/education",
+        icon: resolveComponent("LucideGraduationCap")
     },
     {
         title: "Experience",
@@ -38,7 +38,7 @@ const menus = [
     {
         title: "Skill",
         to: "/admin/skill",
-        icon: resolveComponent("LucideGraduationCap")
+        icon: resolveComponent("LucideWrench")
     },
     // {
     //     title: "Menu 3",

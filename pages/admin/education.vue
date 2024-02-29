@@ -4,7 +4,7 @@
             <div class="flex items-center gap-2">
                 <LucideGraduationCap :size="26" /> E D U C A T I O N
             </div>
-            <button class="btn btn-neutral" @click="showForm = true">
+            <button @click="editData = null; showForm = true" class="btn btn-neutral">
                 <LucidePlus :size="16" /> Add Education
             </button>
         </div>
@@ -32,10 +32,10 @@
                         <td class="text-center">{{ edu.degree }}</td>
                         <td>
                             <div class="flex justify-center gap-2">
-                                <button @click="showRemoveModal = true; removeData = edu" class="btn btn-error btn-circle">
+                                <button @click="editData = edu; showForm = true" class="btn btn-error btn-circle">
                                     <LucidePencilLine :size="16" />
                                 </button>
-                                <button @click="showRemoveModal = true; removeData = edu"
+                                <button @click="removeData = edu; showRemoveModal = true"
                                     class="btn btn-neutral btn-circle">
                                     <LucideTrash2 :size="16" />
                                 </button>
@@ -57,7 +57,7 @@
         <AdminModalSuccess :show="showSuccessModal" @close="showSuccessModal = false" />
 
         <!-- FORM MODAL -->
-        <AdminEducationForm :show="showForm" text_save="saved" @close="showForm = false" @saved="" />
+        <AdminEducationForm :data="editData" :show="showForm" text_save="saved" @close="showForm = false" @saved="saved" />
 
     </div>
 </template>
@@ -114,6 +114,21 @@ const handleRemove = async () => {
     }
 }
 
+// CREATE
 const showForm = ref(false);
+
+// berhasil create education
+const saved = async () => {
+    // tutup form
+    showForm.value = false;
+
+    // bukan form success
+    showSuccessModal.value = true;
+
+    // fetch ulang data educations
+    await EduStore.get();
+}
+
+const editData = ref(null);
 
 </script>
