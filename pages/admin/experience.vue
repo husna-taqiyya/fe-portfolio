@@ -16,28 +16,30 @@
                 <!-- head -->
                 <thead>
                     <tr>
-                        <th>title</th>
+                        <th>Id</th>
                         <td>company</td>
+                        <td class="text-center">title</td>
                         <td>location</td>
                         <td>description</td>
-                        <td>Date</td>
-                        <td>Action</td>
+                        <td class="text-center">Date</td>
+                        <td class="text-center">Action</td>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- row 1 -->
                     <tr v-for="exp in dataTable" :key="exp.id">
-                        <th>{{ exp.title }}</th>
-                        <td class="text-center">{{ exp.company }}</td>
+                        <th>{{ exp.id }}</th>
+                        <td>{{ exp.company }}</td>
+                        <td class="text-center">{{ exp.title }}</td>
                         <td class="text-center">{{ exp.location }}</td>
                         <td class="text-center">{{ exp.description }}</td>
                         <td class="text-center">{{ exp.readStartDate }} - {{ exp.readEndDate }}</td>
                         <td>
                             <div class="flex justify-center gap-2">
-                                <button @click="showRemoveModal = true; removeData = exp" class="btn btn-error btn-circle">
+                                <button @click="editData = exp; showForm = true" class="btn btn-error btn-circle">
                                     <LucidePencilLine :size="16" />
                                 </button>
-                                <button @click="showRemoveModal = true; removeData = exp"
+                                <button @click="removeData = exp; showRemoveModal = true"
                                     class="btn btn-neutral btn-circle">
                                     <LucideTrash2 :size="16" />
                                 </button>
@@ -119,8 +121,15 @@ const handleRemove = async () => {
 const showForm = ref(false);
 const editData = ref(null);
 
-const saved = () => {
-    console.log('saved');
+// berhasil create education
+const saved = async () => {
+    // tutup form
+    showForm.value = false;
+
+    showSuccessModal.value = true;
+
+    // fetch ulang data educations
+    await ExpStore.get();
 }
 
 </script>

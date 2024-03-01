@@ -30,7 +30,7 @@
                     class="input input-bordered w-full max-w-xs">
                 <div class="text-error text-right text-sm" v-if="errors.degree">{{ errors.degree }}</div>
             </label>
-            <!-- START YEAR -->
+            <!-- START DATE -->
             <label class="form-control">
                 <div class="label label-text">Start Year</div>
 
@@ -43,7 +43,7 @@
                 <div class="text-error text-right text-sm" v-if="errors.startYear">{{ errors.startYear }}</div>
             </label>
 
-            <!-- END YEAR -->
+            <!-- END DATE -->
             <label class="form-control w-full max-w-xs">
                 <div class="label label-text">End Year</div>
                 <input v-model="formData.endYear" type="text" placeholder="Type Here"
@@ -68,6 +68,7 @@
 
 <script setup>
 import Joi from "joi";
+
 const emit = defineEmits(['close', 'saved']);
 const props = defineProps({
     data: Object,
@@ -79,8 +80,8 @@ const show_modal = ref(false);
 const isLoading = ref(false);
 
 const formData = ref({});
-const fetchError = ref('');
 const errors = ref({});
+const fetchError = ref('');
 const isChecked = ref(false);
 
 watchEffect(() => {
@@ -109,12 +110,12 @@ const handlePresent = (e) => {
     }
 }
 
-
 // handle save 
 const EduStore = useEducationStore();
 const save = async () => {
     // reset error 
     // console.log(formData.value)
+
     errors.value = {};
     fetchError.value = '';
 

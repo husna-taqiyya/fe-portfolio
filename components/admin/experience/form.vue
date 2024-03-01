@@ -1,5 +1,3 @@
-
-import type { DatePicker } from 'v-calendar';
 <template>
     <input v-model="show_modal" type="checkbox" class="modal-toggle" />
     <div class="modal" role="dialog">
@@ -9,15 +7,9 @@ import type { DatePicker } from 'v-calendar';
                 <label class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" @click="$emit('close')">✕</label>
             </form>
 
-            <h3 class="font-bold text-lg">{{ data ? `UPDATE: ${data.institutionName}` : 'CREATE EDUCATION' }}</h3>
-            <!-- company     String    @db.VarChar(100)
-            location    String    @db.VarChar(100)
-            description String    @db.Text
-            startDate   DateTime  @db.Date
-            endDate     DateTime? @db.Date -->
+            <h3 class="font-bold text-lg">{{ data ? `UPDATE: ${data.title}` : 'CREATE EXPERIENCE' }}</h3>
 
-
-            <!-- INSTITUTION NAME -->
+            <!-- TITLE -->
             <label class="form-control w-full max-w-xs">
                 <div class="label label-text">Title</div>
                 <input v-model="formData.title" type="text" placeholder="Title"
@@ -39,45 +31,48 @@ import type { DatePicker } from 'v-calendar';
             <!-- DESCRIPTION -->
             <label class="form-control w-full max-w-xs">
                 <div class="label label-text">Description</div>
-                <textarea v-model="formData.description" rows="5" class="textarea textarea-primary"
+                <textarea v-model="formData.description" rows="3" class="textarea textarea-primary"
                     placeholder="Description"></textarea>
                 <div class="text-error text-right text-sm" v-if="errors.description">{{ errors.description }}</div>
             </label>
             <!-- START DATE -->
-            <label class="form-control w-full max-w-xs">
+            <label class="form-control w-full max-x-xs">
                 <div class="label label-text pb-0">Start Date</div>
 
-                <DatePicker v-model="formData.dob" color="gray">
+                <DatePicker v-model="formData.startDate" color="gray">
                     <template #default="{ togglePopover }">
                         <button @click="togglePopover" class="btn btn-outline border-neutral/25 font-normal">
-                            {{ dayjs(formData.dob).format('D MMMM YYYY') }}
+                            {{ dayjs(formData.startDate).format('D MMMM YYYY') }}
                         </button>
                     </template>
                 </DatePicker>
 
-                <div class="text-error text-right text-sm p-2" v-if="errors.dob">{{ errors.dob }}</div>
+                <div class="text-error text-right text-sm p-2" v-if="errors.startDate">{{ errors.dob }}</div>
             </label>
 
             <!-- END DATE -->
             <label class="form-control w-full max-w-xs">
                 <div class="label label-text pb-0">End Date</div>
 
-                <DatePicker v-model="formData.dob" color="gray">
-                    <template #default="{ togglePopover }">
-                        <button @click="togglePopover" class="btn btn-outline border-neutral/25 font-normal">
-                            {{ dayjs(formData.dob).format('D MMMM YYYY') }}
-                        </button>
-                    </template>
-                </DatePicker>
+                <div class="flex gap-3 max-x-xs">
+                    <DatePicker v-model="formData.endDate" color="gray">
+                        <template #default="{ togglePopover }">
+                            <button @click="togglePopover" class="btn btn-outline border-neutral/25 font-normal">
+                                {{ dayjs(formData.endDate).format('D MMMM YYYY') }}
+                            </button>
+                        </template>
+                    </DatePicker>
+                    <input type="checkbox" v-model="isChecked" class="checkbox" @change="handlePresent" /> PRESENT
+                </div>
 
-                <div class="text-error text-right text-sm p-2" v-if="errors.dob">{{ errors.dob }}</div>
+                <div class="text-error text-right text-sm p-2" v-if="errors.endDate">{{ errors.dob }}</div>
             </label>
 
             <div class="modal-action">
                 <label class="btn" @click="$emit('close')">Close!</label>
                 <label @click="save" class="btn btn-neutral">
                     {{ data ? 'Update' : 'Save' }}
-                    <!-- <ImagesLoading v-show="isLoading" class="w-10" /> -->
+                    <ImagesLoading v-show="isLoading" class="w-10" />
                 </label>
             </div>
         </div>
@@ -104,45 +99,59 @@ const show_modal = ref(false);
 const isLoading = ref(false);
 
 const formData = ref({});
-const isChecked = ref(false);
+const isChecked = ref({});
 
 watchEffect(() => {
     show_modal.value = props.show;
 
+    // edit form
+    formData.value = {
+        company: props.data ? props.data.company : '',
+        location: props.data ? props.data.location : '',
+        description: props.data ? props.data.description : '',
+        startDate: new Date(),
+        endDate: new Date()
+    }
+
+    isChecked.value = props.data ? props.data.endDate == null : false;
 });
 
 const errors = ref({});
 const fetchError = ref('');
 
-// handle Present
-const handlePresent = (e) => {
-    // ambil value, tercentang atau tdk
-    isChecked.value = e.target.checked;
-
-    if (isChecked.value) {
-        formData.value.endYear = '';
-    }
-}
-
 // handle save 
 const ExpStore = useExperienceStore();
 const save = async () => {
     // reset error 
-    // console.log(formData.value)
     errors.value = {};
     fetchError.value = '';
 
     try {
         // show loading indicator
-        // isLoading.value = true;
+        isLoading.value = true;
+
+        // jika isPresent ter-centang
+        if (isPresent.value) {
+            // ubah endDate menjadi null
+            formData.value.endDate = null;
+        }
+
+        await ExpStore.create(formData.value);
+
+        // if (!props.data) {
+        //     await ExpStore.create(formData.value);
+        // } else {
+        //     await ExpStore.update(props.data.id, formData.value);
+        // }
 
         // hide loading indicator
-        // isLoading.value = false;
+        isLoading.value = false;
         // emit saved
         emit('saved');
     } catch (error) {
-        // reset loading indicator
-        // isLoading.value = false;
+        console.log(error)
+        // hide loading indicator
+        isLoading.value = false;
 
         if (error instanceof Joi.ValidationError) {
             // Joi error
@@ -156,6 +165,13 @@ const save = async () => {
             }
         }
     }
+}
+
+const isPresent = ref({});
+// handle Present
+const handlePresent = () => {
+    console.log(e);
+    isPresent.value = e.target.checked;
 }
 
 </script>
