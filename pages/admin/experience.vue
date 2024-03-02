@@ -11,12 +11,11 @@
 
         <input v-model="filter" type="text" placeholder="Search" class="input input-sm mb-4 input-bordered w-full max-w-xs">
 
-        <div class="overflow-x-auto bg-white">
+        <div class="overflow-x-auto max-lg:hidden">
             <table class="table table-zebra">
                 <!-- head -->
                 <thead>
                     <tr>
-                        <th>Id</th>
                         <td>company</td>
                         <td class="text-center">title</td>
                         <td>location</td>
@@ -28,8 +27,7 @@
                 <tbody>
                     <!-- row 1 -->
                     <tr v-for="exp in dataTable" :key="exp.id">
-                        <th>{{ exp.id }}</th>
-                        <td>{{ exp.company }}</td>
+                        <th>{{ exp.company }}</th>
                         <td class="text-center">{{ exp.title }}</td>
                         <td class="text-center">{{ exp.location }}</td>
                         <td class="text-center">{{ exp.description }}</td>
@@ -49,6 +47,54 @@
                 </tbody>
             </table>
         </div>
+
+        <div class="lg:hidden flex flex-col gap-2 sm:gap-4">
+            <div v-for="exp in dataTable" :key="exp.id" class="card bg-base-100 shadow-xl">
+                <div class="card-body max-sm:p-4">
+                    <div class="flex justify-between">
+                        <div>
+                            <div class="font-semibold">Title : {{ exp.title }}</div>
+                            <div class="font-semibold">Description : {{ exp.description }}</div>
+                            <td class="text-sm">{{ exp.readStartDate }} - {{ exp.readEndDate || 'Present' }}</td>
+                        </div>
+
+                        <div class="dropdown dropdown-end">
+                            <div tabindex="0" role="button" class="btn m-1">
+                                <LucideMoreVertical :size="16" />
+                            </div>
+                            <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                                <li>
+                                    <button @click="editData = exp; showForm = true" class="btn btn-sm my-1">
+                                        <LucidePencilLine :size="16" />
+                                        Edit
+                                    </button>
+                                </li>
+                                <li>
+                                    <button @click="showRemoveModal = true; removeData = exp"
+                                        class="btn btn-sm btn-error my-1">
+                                        <LucideTrash2 :size="16" />
+                                        Remove
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-10 gap-3">
+                        <button class="col-span-6 btn btn-neutral flex justify-between">
+                            <div>Company :</div>
+                            <div class="font-normal">{{ exp.company }}</div>
+                        </button>
+                        <button class="col-span-4 btn btn-neutral flex justify-between">
+                            <div>Location :</div>
+                            <div class="font-normal">{{ exp.location }}</div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <!-- modal confirmation -->
         <AdminModalConfirm :show="showRemoveModal" text_save="Remove" @close="showRemoveModal = false"
             @saved="handleRemove">
@@ -119,17 +165,16 @@ const handleRemove = async () => {
 
 // EDIT
 const showForm = ref(false);
-const editData = ref(null);
 
 // berhasil create education
 const saved = async () => {
     // tutup form
     showForm.value = false;
 
-    showSuccessModal.value = true;
-
     // fetch ulang data educations
     await ExpStore.get();
 }
+
+const editData = ref(null);
 
 </script>

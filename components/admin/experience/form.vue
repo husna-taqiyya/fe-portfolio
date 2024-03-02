@@ -36,12 +36,12 @@
                 <div class="text-error text-right text-sm" v-if="errors.description">{{ errors.description }}</div>
             </label>
             <!-- START DATE -->
-            <label class="form-control w-full max-x-xs">
+            <label class="form-control w-full">
                 <div class="label label-text pb-0">Start Date</div>
 
                 <DatePicker v-model="formData.startDate" color="gray">
                     <template #default="{ togglePopover }">
-                        <button @click="togglePopover" class="btn btn-outline border-neutral/25 font-normal">
+                        <button @click="togglePopover" class="btn btn-outline border-neutral/25 font-normal w-40">
                             {{ dayjs(formData.startDate).format('D MMMM YYYY') }}
                         </button>
                     </template>
@@ -49,20 +49,19 @@
 
                 <div class="text-error text-right text-sm p-2" v-if="errors.startDate">{{ errors.dob }}</div>
             </label>
-
             <!-- END DATE -->
-            <label class="form-control w-full max-w-xs">
+            <label class="form-control w-full">
                 <div class="label label-text pb-0">End Date</div>
 
-                <div class="flex gap-3 max-x-xs">
+                <div class="flex items-center gap-3 max-x-xs">
                     <DatePicker v-model="formData.endDate" color="gray">
                         <template #default="{ togglePopover }">
-                            <button @click="togglePopover" class="btn btn-outline border-neutral/25 font-normal">
+                            <button @click="togglePopover" class="btn btn-outline border-neutral/25 font-normal w-40">
                                 {{ dayjs(formData.endDate).format('D MMMM YYYY') }}
                             </button>
                         </template>
                     </DatePicker>
-                    <input type="checkbox" v-model="isChecked" class="checkbox" @change="handlePresent" /> PRESENT
+                    <input type="checkbox" v-model="isPresent" class="checkbox" @change="handlePresent" /> PRESENT
                 </div>
 
                 <div class="text-error text-right text-sm p-2" v-if="errors.endDate">{{ errors.dob }}</div>
@@ -85,10 +84,10 @@
 
 <script setup>
 import Joi from "joi";
-import dayjs from 'dayjs'
+import dayjs from 'dayjs';
 import { DatePicker } from 'v-calendar';
-
 const emit = defineEmits(['close', 'saved']);
+
 const props = defineProps({
     data: Object,
     show: Boolean,
@@ -99,25 +98,40 @@ const show_modal = ref(false);
 const isLoading = ref(false);
 
 const formData = ref({});
-const isChecked = ref({});
+const fetchError = ref('');
+const errors = ref({});
+const isPresent = ref(false);
 
 watchEffect(() => {
     show_modal.value = props.show;
 
-    // edit form
+    // reset form
     formData.value = {
         company: props.data ? props.data.company : '',
+        title: props.data ? props.data.title : '',
         location: props.data ? props.data.location : '',
         description: props.data ? props.data.description : '',
-        startDate: new Date(),
-        endDate: new Date()
+        startDate: props.data ? new Date(props.data.startDate) : new Date(),
+        endDate: props.data
+            ? props.data.endDate != null ? new Date(props.data.endDate) : new Date()
+            : new Date()
+        // kondisi 1: props.data = null
+        // kondisi 2: props.data.endDate = null
+    };
+
+    // set isPresent
+    if (props.data) {
+        // tergantung kondisi endData
+        isPresent.value = props.data.endDate == null;
+    } else {
+        isPresent.value = false;
     }
-
-    isChecked.value = props.data ? props.data.endDate == null : false;
 });
-
-const errors = ref({});
-const fetchError = ref('');
+// handle present
+const handlePresent = (e) => {
+    // ambil value, tercentang atau tidak
+    isPresent.value = e.target.checked;
+}
 
 // handle save 
 const ExpStore = useExperienceStore();
@@ -130,14 +144,22 @@ const save = async () => {
         // show loading indicator
         isLoading.value = true;
 
-        // jika isPresent ter-centang
+        // jika isPresent tercentang
         if (isPresent.value) {
             // ubah endDate menjadi null
-            formData.value.endDate = null;
+            formData.value.endDate = null
         }
 
-        await ExpStore.create(formData.value);
-
+        if (!props.data) {
+            // jika tidak ada -> create
+            await ExpStore.create(formData.value);
+        } else {
+            console.log(formData)
+            // update
+            const id = props.data.id;
+            console.log(id)
+            await ExpStore.update(id, formData.value);
+        }
         // if (!props.data) {
         //     await ExpStore.create(formData.value);
         // } else {
@@ -146,11 +168,12 @@ const save = async () => {
 
         // hide loading indicator
         isLoading.value = false;
+
         // emit saved
         emit('saved');
     } catch (error) {
         console.log(error)
-        // hide loading indicator
+        // reset loading indicator
         isLoading.value = false;
 
         if (error instanceof Joi.ValidationError) {
@@ -164,14 +187,8 @@ const save = async () => {
                 console.error(error);
             }
         }
-    }
-}
 
-const isPresent = ref({});
-// handle Present
-const handlePresent = () => {
-    console.log(e);
-    isPresent.value = e.target.checked;
+    }
 }
 
 </script>

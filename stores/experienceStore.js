@@ -18,16 +18,18 @@ export const useExperienceStore = defineStore('experience', {
         },
         async create(data) {
             const Api = useApiStore();
-            await Api.post('/experience', data);
-
             // validasi
             data = Validate(isExperience, data);
+
+            await Api.post('/experience', data);
+
         },
         async update(id, data) {
             const Api = useApiStore();
 
             // validasi
             data = Validate(isExperience, data);
+
             await Api.put(`/experience/${id}`, data);
         }
     }

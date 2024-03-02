@@ -11,32 +11,33 @@
 
         <input v-model="filter" type="text" placeholder="Search" class="input input-sm mb-4 input-bordered w-full max-w-xs">
 
-        <div class="overflow-x-auto bg-white">
+        <div class="overflow-x-auto max-lg:hidden">
             <table class="table table-zebra">
                 <!-- head -->
                 <thead>
                     <tr>
+                        <th>Id</th>
                         <th>Institution</th>
                         <th class="text-center">Periode</th>
                         <th class="text-center">Major</th>
                         <th class="text-center">Degree</th>
-                        <th class="text-center">Action</th>
+                        <th class="text-center">Remove</th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- row 1 -->
                     <tr v-for="edu in dataTable" :key="edu.id">
-                        <th>{{ edu.institutionName }}</th>
+                        <th>{{ edu.id }}</th>
+                        <td>{{ edu.institutionName }}</td>
                         <td class="text-center">{{ edu.startYear }} - {{ edu.endYear || 'Present' }}</td>
                         <td class="text-center">{{ edu.major }}</td>
                         <td class="text-center">{{ edu.degree }}</td>
                         <td>
-                            <div class="flex justify-center gap-2">
-                                <button @click="editData = edu; showForm = true" class="btn btn-error btn-circle">
+                            <div class="flex gap-2 justify-center">
+                                <button @click="editData = edu; showForm = true" class="btn btn-neutral">
                                     <LucidePencilLine :size="16" />
                                 </button>
-                                <button @click="removeData = edu; showRemoveModal = true"
-                                    class="btn btn-neutral btn-circle">
+                                <button class="btn btn-error" @click="showRemoveModal = true; removeData = edu">
                                     <LucideTrash2 :size="16" />
                                 </button>
                             </div>
@@ -44,6 +45,51 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+
+        <div class="lg:hidden flex flex-col gap-2 sm:gap-4">
+            <div v-for="edu in dataTable" :key="edu.id" class="card bg-base-100 shadow-xl">
+                <div class="card-body max-sm:p-4">
+                    <div class="flex justify-between">
+                        <div>
+                            <div class="font-semibold">Period : {{ edu.institutionName }}</div>
+                            <td class="text-sm">{{ edu.startYear }} - {{ edu.endYear || 'Present' }}</td>
+                        </div>
+
+                        <div class="dropdown dropdown-end">
+                            <div tabindex="0" role="button" class="btn m-1">
+                                <LucideMoreVertical :size="16" />
+                            </div>
+                            <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                                <li>
+                                    <button @click="editData = edu; showForm = true" class="btn btn-sm my-1">
+                                        <LucidePencilLine :size="16" />
+                                        Edit
+                                    </button>
+                                </li>
+                                <li>
+                                    <button @click="showRemoveModal = true; removeData = edu"
+                                        class="btn btn-sm btn-error my-1">
+                                        <LucideTrash2 :size="16" />
+                                        Remove
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-10 gap-3">
+                        <button class="col-span-6 btn btn-neutral flex justify-between">
+                            <div>Major :</div>
+                            <div class="font-normal">{{ edu.major }}</div>
+                        </button>
+                        <button class="col-span-4 btn btn-neutral flex justify-between">
+                            <div>Degree :</div>
+                            <div class="font-normal">{{ edu.degree }}</div>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- modal confirmation -->
