@@ -3,7 +3,7 @@
         <div class="font-semibold text-lg mb-4 border-b-neutral/25 flex items-center justify-between">
             <div class="flex items-center gap-2">
                 <LucideWrench :size="26" />
-                Skill
+                S K I L L S
             </div>
             <button @click="showForm = true" class="btn btn-sm btn-neutral">
                 <LucidePlus :size="16" />
@@ -11,15 +11,15 @@
             </button>
         </div>
 
-        <div class="flex 0 gap-4">
-            <select name="" id="" class="w-60">
-                <option value="">All Categories</option>
-                <!-- draw categories -->
+        <div class="flex gap-3">
+            <input v-model="filter" type="text" placeholder="Search" class="input input-sm input-bordered w-full max-w-xs">
+
+            <!-- category selector -->
+            <select v-model="selectedCategory" @change="filter = ''"
+                class="select select-sm select-bordered w-full max-w-xs">
+                <option value="all">All</option>
+                <option v-for="cat in SkillStore.categories" :key="cat.id" :value="cat.id">{{ cat.title }}</option>
             </select>
-            <div class="w-full">
-                <input v-model="filter" type="text" placeholder="Type Here"
-                    class="grow input input-sm input-bordered w-full" />
-            </div>
         </div>
 
         <div class="overflow-x-auto">
@@ -36,20 +36,23 @@
                 </thead>
                 <tbody>
                     <!-- row 1 -->
-                    <tr v-for="skill in dataTable" :key="skill.id">
+                    <tr v-for="skill in dataTable">
                         <th>
-                            <div v-html="skill.svg" class="w-8 overflow-hidden"></div>
+                            <div v-html="skill.svg" class="w-8"></div>
                         </th>
-                        <td class="text-center">{{ skill.title }}</td>
-                        <td class="text-center">{{ skill.category.title }}</td>
-                        <td class="text-center">{{ skill.projects }}</td>
+                        <td class="text-center font-semibold">{{ skill.title }}</td>
+                        <td class="text-center tet-xs">
+                            <span class="badge badge-outline badge-sm border-neutral/25 text-center font-semibold pb-px">{{
+                                skill.category.title }}</span>
+                        </td>
+
+                        <td class="text-center">{{ skill._count.projects }}</td>
                         <td>
                             <div class="flex justify-center gap-2">
                                 <button class="btn btn-circle btn-neutral">
                                     <LucidePencilLine :size="16" />
                                 </button>
-                                <button @click="showRemoveModal = true; removeData = skill"
-                                    class="btn btn-circle btn-error">
+                                <button v-if="skill._count.projects == 0" class="btn btn-circle btn-error">
                                     <LucideTrash2 :size="16" />
                                 </button>
                             </div>
@@ -70,9 +73,7 @@
         <AdminModalSuccess :show="showSuccessModal" @close="showSuccessModal = false" />
 
         <!-- FORM MODAL -->
-        <AdminEducationForm :show="showForm" text_save="saved" @close="showForm = false" @saved="" />
-
-
+        <AdminSkillForm :data="updateData" :show="showForm" @close="showForm = false" @saved="" />
 
     </div>
 </template>
@@ -83,29 +84,53 @@ definePageMeta({
     middleware: 'auth'
 });
 
-const SkillStore = useSkillStore();
 const showRemoveModal = ref(false);
 const showSuccessModal = ref(false);
 const removeData = ref(null);
-const filter = ref('');
 
+const filter = ref('');
+const SkillStore = useSkillStore();
 onBeforeMount(async () => {
-    await SkillStore.get();
+    await Promise.all([
+        SkillStore.get(),
+        SkillStore.getCategories()
+    ]);
 });
 
-const dataTable = computed(() => {
+// FORM
+const showForm = ref(false);
+const updateData = ref(null);
 
+// SELECTOR
+const selectedCategory = ref('all');
+
+const dataTable = computed(() => {
+    // pastikan huruf lower
     const search = filter.value.toLowerCase();
+    const selectedCatID = selectedCategory.value;
 
     if (search != '') {
         // jalankan filter
         return SkillStore.skills.filter(skill => {
+            // pastikan huruf lower
             const title = skill.title.toLowerCase();
-            return title.includes(search);
+
+            if (selectedCatID == 'all') {
+                return title.includes(search);
+            } else {
+                return title.includes(search) && skill.skillCategoryId == selectedCatID;
+            }
         });
     } else {
         // return semua data
-        return SkillStore.skills;
+        if (selectedCatID == 'all') {
+            return SkillStore.skills;
+        } else {
+            // return berdasarkan category id
+            return SkillStore.skills.filter(skill => {
+                return skill.skillCategoryId == selectedCatID
+            })
+        }
     }
 });
 
@@ -114,7 +139,7 @@ const handleRemove = async () => {
         const id = removeData.value.id;
 
         // proses delete
-        await EduStore.remove(id);
+        await SkillStore.remove(id);
 
         // hide modal
         showRemoveModal.value = false;
@@ -123,14 +148,12 @@ const handleRemove = async () => {
         showSuccessModal.value = true;
 
         // refresh data
-        await EduStore.get();
+        await SkillStore.get();
     } catch (error) {
         console.log(error);
     }
 }
 
-// CREATE
-const showForm = ref(false);
 // berhasil
 const saved = async () => {
     showForm.value = false;
@@ -138,6 +161,7 @@ const saved = async () => {
     showSuccessModal.value = true;
 
     // fetch ulang data education
-    await EduStore.get();
+    await SkillStore.get();
 }
+
 </script>
