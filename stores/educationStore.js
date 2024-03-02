@@ -12,7 +12,6 @@ export const useEducationStore = defineStore('education', {
             this.educations = await Api.get('/educations');
         },
         async remove(id) {
-            console.log(id);
             const Api = useApiStore();
             await Api.delete('/education/' + id);
         },

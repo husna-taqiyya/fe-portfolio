@@ -114,8 +114,6 @@ const handlePresent = (e) => {
 const EduStore = useEducationStore();
 const save = async () => {
     // reset error 
-    // console.log(formData.value)
-
     errors.value = {};
     fetchError.value = '';
 

@@ -48,14 +48,36 @@
 
                         <td class="text-center">{{ skill._count.projects }}</td>
                         <td>
-                            <div class="flex justify-center gap-2">
-                                <button class="btn btn-circle btn-neutral">
+                            <div class="flex justify-center gap-2 max-md:hidden">
+                                <button @click="updateData = skill; showForm = true" class="btn btn-circle btn-neutral">
                                     <LucidePencilLine :size="16" />
                                 </button>
-                                <button v-if="skill._count.projects == 0" class="btn btn-circle btn-error">
+                                <button v-if="skill._count.projects == 0" @click="showRemoveModal = true; removeData = skill" class="btn btn-circle btn-error">
                                     <LucideTrash2 :size="16" />
                                 </button>
                             </div>
+                            <div class="md:hidden">
+                                <div class="dropdown dropdown-end">
+                                <div tabindex="0" role="button" class="btn m-1">
+                                    <LucideMoreVertical :size="16" />
+                                </div>
+                                <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                                    <li>
+                                        <button @click="editData = exp; showForm = true" class="btn btn-sm my-1">
+                                            <LucidePencilLine :size="16" />
+                                            Edit
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button @click="showRemoveModal = true; removeData = exp"
+                                            class="btn btn-sm btn-error my-1">
+                                            <LucideTrash2 :size="16" />
+                                            Remove
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                         </td>
                     </tr>
                 </tbody>
@@ -66,14 +88,14 @@
         <AdminModalConfirm :show="showRemoveModal" text_save="Remove" @close="showRemoveModal = false"
             @saved="handleRemove">
             Are you sure to remove
-            <span v-if="removeData" class="font-bold">{{ removeData.institutionName }} ?</span>
+            <span v-if="removeData" class="font-bold">{{ removeData.title }} ?</span>
         </AdminModalConfirm>
 
         <!-- modal success alert -->
         <AdminModalSuccess :show="showSuccessModal" @close="showSuccessModal = false" />
 
         <!-- FORM MODAL -->
-        <AdminSkillForm :data="updateData" :show="showForm" @close="showForm = false" @saved="" />
+        <AdminSkillForm :data="updateData" :show="showForm" @close="showForm = false" @saved="saved" />
 
     </div>
 </template>
@@ -84,17 +106,19 @@ definePageMeta({
     middleware: 'auth'
 });
 
-const showRemoveModal = ref(false);
-const showSuccessModal = ref(false);
-const removeData = ref(null);
+const getData = async () => {
+    await Promise.all([
+        SkillStore.getCategories(),
+        SkillStore.get(),
+    ]);
+}
 
 const filter = ref('');
+
+
 const SkillStore = useSkillStore();
 onBeforeMount(async () => {
-    await Promise.all([
-        SkillStore.get(),
-        SkillStore.getCategories()
-    ]);
+    await getData();
 });
 
 // FORM
@@ -128,12 +152,16 @@ const dataTable = computed(() => {
         } else {
             // return berdasarkan category id
             return SkillStore.skills.filter(skill => {
-                return skill.skillCategoryId == selectedCatID
+                return skill.skillCategoryId == selectedCatID;
             })
         }
     }
 });
 
+// REMOVE 
+const removeData = ref(null);
+const showRemoveModal = ref(false);
+const showSuccessModal = ref(false);
 const handleRemove = async () => {
     try {
         const id = removeData.value.id;
@@ -156,12 +184,14 @@ const handleRemove = async () => {
 
 // berhasil
 const saved = async () => {
+    // tutup form modal
     showForm.value = false;
 
+    // bukan form success
     showSuccessModal.value = true;
 
-    // fetch ulang data education
-    await SkillStore.get();
+    // fetch ulang data + category
+    await getData();
 }
 
 </script>

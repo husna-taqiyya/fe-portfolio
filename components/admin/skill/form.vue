@@ -7,11 +7,46 @@
                 <label class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" @click="$emit('close')">✕</label>
             </form>
 
-            <h3 class="font-bold text-lg">{{ data ? `UPDATE: ${data.institutionName}` : 'CREATE EDUCATION' }}</h3>
+            <h3 class="font-bold text-lg">{{ data ? `UPDATE: ${data.title}` : 'CREATE SKILL' }}</h3>
+
+            <!-- TITLE -->
+            <label class="form-control w-full max-w-xs">
+                <div class="label label-text">Title</div>
+                <input v-model="formData.title" type="text" placeholder="Title"
+                    class="input input-bordered w-full max-w-xs">
+                <div class="text-error text-right text-sm" v-if="errors.title">{{ errors.title }}</div>
+            </label>
+
+            <!-- CATEGORY -->
+            <label class="form-control w-full max-w-xs">
+                <div class="label label-text">Category</div>
+                <input v-model="formData.category" type="text" placeholder="Category"
+                    class="input input-bordered w-full max-w-xs">
+                <div class="text-error text-right text-sm" v-if="errors.category">{{ errors.category }}</div>
+            </label>
+
+            <!-- category selector -->
+            <div class="flex flex-col">
+                <label class="mt-2 text-sm">Select Category</label>
+                <select @change="filter = (e) => formData.category = e.target.value"
+                    class="select select-sm select-bordered w-full max-w-xs">
+                    <option v-for="cat in SkillStore.categories" :key="cat.id" :value="cat.id">{{ cat.title }}</option>
+                </select>
+            </div>
+
+            <!-- SVG -->
+            <label class="form-control w-full max-w-xs">
+                <div class="label label-text">SVG</div>
+
+                <div v-html="formData.svg" class="w-32 bg-neutral/10 rounded-full p-6 mb-2 mx-auto"></div>
+
+                <textarea v-model="formData.svg" rows="3" class="textarea textarea-primary" placeholder="SVG"></textarea>
+                <div class="text-error text-right text-sm" v-if="errors.svg">{{ errors.svg }}</div>
+            </label>
 
             <div class="modal-action">
                 <label class="btn" @click="$emit('close')">Close!</label>
-                <label @click="" class="btn btn-neutral">
+                <label @click="save" class="btn btn-neutral">
                     {{ data ? 'Update' : 'Save' }}
                     <ImagesLoading v-show="isLoading" class="w-10" />
                 </label>
@@ -46,51 +81,39 @@ watchEffect(() => {
     show_modal.value = props.show;
 
     // reset form
-    formData.value = {}
+    formData.value = {
+        title: '',
+        category: '',
+        svg: ''
+    }
 
     isChecked.value = props.data ? props.data.endYear == null : false;
 });
 
-// handle Present
-const handlePresent = (e) => {
-    // ambil value, tercentang atau tdk
-    isChecked.value = e.target.checked;
-
-    if (isChecked.value) {
-        formData.value.endYear = '';
-    }
-}
-
 // handle save 
-const SkiStore = useSkillStore();
+const SkillStore = useSkillStore();
 const save = async () => {
     // reset error 
-    // console.log(formData.value)
-
     errors.value = {};
     fetchError.value = '';
 
     try {
-        // show loading indicator
+        // tampilkan loading
         isLoading.value = true;
 
-        // ubah data endYear jika kosong menjadi null
-        if (!formData.value.endYear) formData.value.endYear = null;
-        // console.log(formData.value.endYear)
-
+        // await SkillStore.create(formData.value);
         if (!props.data) {
-            await SkiStore.create(formData.value);
+            await SkillStore.create(formData.value);
         } else {
-            await SkiStore.update(props.data.id, formData.value);
+            await SkillStore.update(props.data.id, formData.value);
         }
 
         // hide loading indicator
         isLoading.value = false;
-        // emit saved
-        emit('saved');
 
+        emit('saved')
     } catch (error) {
-        // reset loading indicator
+        // hilangkan loading
         isLoading.value = false;
 
         if (error instanceof Joi.ValidationError) {
