@@ -119,9 +119,12 @@ const handleSave = async () => {
     try {
         isLoading.value = true;
         await BlogStore.create(formData.value, file_photos);
+
+        navigateTo('/admin/blogs');
+
     } catch (error) {
         // reset loading indicator
-        // isLoading.value = false;
+        isLoading.value = false;
 
         if (error instanceof Joi.ValidationError) {
             // joi error
