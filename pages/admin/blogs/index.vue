@@ -18,8 +18,27 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-4 gap-6">
-            <div v-for="blog in BlogStore.blogs"  :key="blog.id" class="card card-compact bg-base-100 shadow-xl">
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div v-for="blog in BlogStore.blogs"  :key="blog.id" class="card card-compact bg-base-100 shadow-xl overflow-hidden relative">
+                <div class=" lg:hidden dropdown dropdown-end absolute right-0 top-0">
+                    <div tabindex="0" role="button" class="btn btn-sm px-1 bg-opacity-70 rounded-md m-1">
+                        <LucideMoreVertical :size="16" />
+                    </div>
+                    <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                        <li>
+                            <button @click="" class="btn btn-sm my-1">
+                                <LucidePencilLine :size="16" />
+                                Edit
+                            </button>
+                        </li>
+                        <li>
+                            <button @click="" class="btn btn-sm btn-error my-1">
+                                <LucideTrash2 :size="16" />
+                                Remove
+                            </button>
+                        </li>
+                    </ul>
+                </div>
                 <figure>
                     <!-- kalau ada fotonya minimal 1 -->
                     <img v-if="blog.photos.length" :src="apiUri + blog.photos[0].path" />
@@ -31,6 +50,16 @@
                 <div class="card-body">
                     <h2 class="card-title">{{ blog.title }}</h2>
                     <p class="line-clamp-2 xl:line-clamp-3">{{ blog.content }}</p>
+                </div>
+                <div class="max-lg:hidden flex gap-2 justify-end">
+                    <button @click="" class="btn btn-xs xl:btn-sm my-1">
+                        <LucidePencilLine :size="16" />
+                        Edit
+                    </button>
+                    <button @click="" class="btn btn-sm btn-error my-1">
+                        <LucideTrash2 :size="16" />
+                        Remove
+                    </button>
                 </div>
             </div>
         </div>
