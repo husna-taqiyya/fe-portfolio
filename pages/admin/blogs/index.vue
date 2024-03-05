@@ -26,13 +26,13 @@
                     </div>
                     <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
                         <li>
-                            <button @click="" class="btn btn-sm my-1">
+                            <button @click="" class="btn btn-sm btn-primary my-1">
                                 <LucidePencilLine :size="16" />
                                 Edit
                             </button>
                         </li>
                         <li>
-                            <button @click="" class="btn btn-sm btn-error my-1">
+                            <button @click="removeData = blog; showRemoveModal = true;" class="btn btn-sm btn-error my-1">
                                 <LucideTrash2 :size="16" />
                                 Remove
                             </button>
@@ -52,11 +52,11 @@
                     <p class="line-clamp-2 xl:line-clamp-3">{{ blog.content }}</p>
                 </div>
                 <div class="max-lg:hidden flex gap-2 justify-end">
-                    <button @click="" class="btn btn-xs xl:btn-sm my-1">
+                    <button @click="" class="btn btn-primary btn-xs xl:btn-sm my-1">
                         <LucidePencilLine :size="16" />
                         Edit
                     </button>
-                    <button @click="" class="btn btn-sm btn-error my-1">
+                    <button @click="removeData = blog; showRemoveModal = true;" class="btn btn-sm btn-error my-1">
                         <LucideTrash2 :size="16" />
                         Remove
                     </button>
@@ -76,6 +76,17 @@
                 <button class="join-item btn" @click="nextPage">»</button>
             </div>
         </div>
+
+        <!-- modal confirmation -->
+        <AdminModalConfirm :show="showRemoveModal" text_save="Remove" @close="showRemoveModal = false"
+            @saved="handleRemove">
+            Are you sure to remove
+            <span v-if="removeData" class="font-bold">{{ removeData.title }} ?</span>
+        </AdminModalConfirm>
+
+        <!-- modal success alert -->
+        <AdminModalSuccess :show="showSuccessModal" @close="showSuccessModal = false" />
+
   </div>
 </template>
 
@@ -119,6 +130,41 @@ const nextPage = async () => {
 
         // fetch ulang
         await getData();
+    }
+}
+
+// REMOVE
+const remove =async (id) => {
+    try {
+        // do remove
+        await BlogStore.remove(id);
+
+        // load ulang data
+        await getData();
+    } catch (error) {
+        console.log(error);        
+    }
+}
+
+// REMOVE 
+const removeData = ref(null);
+const showRemoveModal = ref(false);
+const showSuccessModal = ref(false);
+const handleRemove = async () => {
+    try {
+        // proses delete
+        await BlogStore.remove(removeData.value.id);
+
+        // hide modal
+        showRemoveModal.value = false;
+
+        // success modal
+        showSuccessModal.value = true;
+
+        // refresh data
+        await getData();
+    } catch (error) {
+        console.log(error);
     }
 }
 
