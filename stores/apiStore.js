@@ -29,7 +29,7 @@ export const useApiStore = defineStore('api', {
             const apiUri = config.public.apiUri;
 
             if (!(data instanceof FormData)) {
-                // jika data bukan formdata
+                // jika data bukan form data
                 data = JSON.stringify(data);
             }
 

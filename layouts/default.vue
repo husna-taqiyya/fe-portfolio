@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-gradient-to-r from-indigo-500 min-h-screen flex text-default">
+    <div class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 min-h-screen flex text-default">
         <!-- MAIN CONTENT -->
         <div class="min-h-screen grow">
             <slot />
