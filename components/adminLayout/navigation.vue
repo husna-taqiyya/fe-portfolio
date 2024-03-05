@@ -26,6 +26,11 @@ const menus = [
         icon: resolveComponent("LucideLayoutDashboard")
     },
     {
+        title: "Blog",
+        to: "/admin/blogs",
+        icon: resolveComponent("LucideNewspaper")
+    },
+    {
         title: "Education",
         to: "/admin/education",
         icon: resolveComponent("LucideGraduationCap")

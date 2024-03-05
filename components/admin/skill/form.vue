@@ -82,9 +82,9 @@ watchEffect(() => {
 
     // reset form
     formData.value = {
-        title: '',
-        category: '',
-        svg: ''
+        title: props.data ? props.data.title : '',
+        category: props.data ? props.data.category : '',
+        svg: props.data ? props.data.svg : ''
     }
 
     isChecked.value = props.data ? props.data.endYear == null : false;
