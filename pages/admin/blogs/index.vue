@@ -4,9 +4,9 @@
             <div class="flex items-center gap-2">
                 <LucideGraduationCap :size="26" /> B L O G S
             </div>
-            <button @click="" class="btn btn-neutral">
+            <NuxtLink to="/admin/blogs/new" class="btn btn-neutral">
                 <LucidePlus :size="16" /> Add Blog
-            </button>
+            </NuxtLink>
         </div>
 
         <div class="flex max-sm:flex-col max-sm:items-center sm:justify-between">
@@ -96,10 +96,10 @@ definePageMeta({
     middleware: ['auth']
 });
 
-const config = useRuntimeConfig();
-const apiUri = config.public.apiUri;
 
 const BlogStore = useBlogStore();
+const config = useRuntimeConfig();
+const apiUri = config.public.apiUri;
 
 onBeforeMount(async() => {
     await getData();
