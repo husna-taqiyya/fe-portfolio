@@ -41,6 +41,10 @@ export const useBlogStore = defineStore('blog', {
             const Api = useApiStore();
             this.data = await Api.get(`/blogs?limit=12&page=${page}&search=${search}`);
         },
+        async getById(id) {
+            const Api = useApiStore();
+            return Api.get('/blog/' + id);
+        },
         async create(data, photos) {
             const Api = useApiStore();
 
@@ -62,6 +66,6 @@ export const useBlogStore = defineStore('blog', {
             const Api = useApiStore();
 
             await Api.delete('/blog/' + id);
-        },
+        }
     }
 });

@@ -154,10 +154,8 @@ const save = async () => {
             // jika tidak ada -> create
             await ExpStore.create(formData.value);
         } else {
-            console.log(formData)
             // update
             const id = props.data.id;
-            console.log(id)
             await ExpStore.update(id, formData.value);
         }
         // if (!props.data) {

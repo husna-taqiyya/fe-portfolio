@@ -52,10 +52,10 @@
                     <p class="line-clamp-2 xl:line-clamp-3">{{ blog.content }}</p>
                 </div>
                 <div class="max-lg:hidden flex gap-2 justify-end">
-                    <button @click="" class="btn btn-primary btn-xs xl:btn-sm my-1">
+                    <NuxtLink :to="`/admin/blogs/update?id=${blog.id}`" @click="" class="btn btn-primary btn-xs xl:btn-sm my-1">
                         <LucidePencilLine :size="16" />
                         Edit
-                    </button>
+                    </NuxtLink>
                     <button @click="removeData = blog; showRemoveModal = true;" class="btn btn-sm btn-error my-1">
                         <LucideTrash2 :size="16" />
                         Remove
@@ -95,7 +95,6 @@ definePageMeta({
     layout: 'admin',
     middleware: ['auth']
 });
-
 
 const BlogStore = useBlogStore();
 const config = useRuntimeConfig();
