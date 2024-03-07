@@ -2,11 +2,11 @@
     <div>
         <div class="font-semibold mb-6 pb-2 border-b border-b-neutral flex items-center justify-between">
             <div class="flex items-center gap-2">
-                <LucideLayoutDashboard :size="26" /> P R O J E C T S
+                <LucideLayoutDashboard :size="30" /> P R O J E C T S
             </div>
-            <!-- <NuxtLink to="/admin/projects/new" class="btn btn-neutral">
+            <NuxtLink to="/admin/projects/new" class="btn btn-neutral">
                 <LucidePlus :size="16" /> Add Project
-            </NuxtLink> -->
+            </NuxtLink>
         </div>
 
         <div class="flex max-sm:flex-col max-sm:items-center sm:justify-between">
