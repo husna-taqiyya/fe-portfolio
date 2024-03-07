@@ -19,6 +19,12 @@
         </div>
 
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <!-- start date
+            end date
+            company
+            status -->
+
+            
             <div v-for="project in ProjectStore.projects"  :key="project.id" class="card card-compact bg-base-100 shadow-xl overflow-hidden relative">
                 <div class=" lg:hidden dropdown dropdown-end absolute right-0 top-0">
                     <div tabindex="0" role="button" class="btn btn-sm px-1 bg-opacity-70 rounded-md m-1">
@@ -39,15 +45,24 @@
                         </li>
                     </ul>
                 </div>
+
+                <div class="card-body flex-none !pb-1">
+                    <h2 class="card-title max-md:text-base line-clamp-1">{{project.title}}</h2>
+                    <div class="flex max-sm:flex-col gap-1 justify-between">
+                        <p class="text-xs">{{ project.startDate }} - {{ project.endDate }}</p>
+                        <p class="text-xs font-semibold">{{ project.status }}</p>
+                    </div>
+                </div>
                 <figure>
                     <img v-if="project.photos.length" :src="apiUri + project.photos[0].path" />
                     
                     <div v-else class="bg-neutral/20 aspect-video w-full"></div>
                     
+                    <div class="absolute badge left-1 buttom-1" v-if="project.skills.length">{{project.skills.length}} Skill</div>
                 </figure>
                 <div class="card-body">
-                    <h2 class="card-title">{{ project.title }}</h2>
-                    <p class="line-clamp-2 xl:line-clamp-3">{{ project.description }}</p>
+                    <h2 class="text-md font-semibold" v-if="project.company">{{ project.company }}</h2>
+                    <p class="line-clamp-2">{{ project.description }}</p>
                 </div>
                 <div class="max-lg:hidden flex gap-2 justify-end">
                     <!-- <NuxtLink :to="`/admin/projects/update?id=${project.id}`" @click="" class="btn btn-primary btn-xs xl:btn-sm my-1">
