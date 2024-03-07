@@ -2,7 +2,7 @@
     <div>
         <div class="font-semibold text-xl mb-4 pb-2 border-b border-b-neutral">
             <div class="flex items-center gap-2">
-                <LucideGraduationCap :size="30" />Update Blog
+                <LucideGraduationCap :size="30" />Update Blog {{ data.title }}
             </div>
         </div>
 
@@ -19,8 +19,8 @@
             <div class="overflow-auto">
                 <!-- loop photo preview -->
                 <div class="flex flex-nowrap gap-2">
-                    <div v-for="(photo, index) in photo_previews" class="min-w-60 relative aspect-video overflow-hidden justify-center items-center rounded bg-neutral/20">
-                        <img :src="photo" class="max-h-full max-w-full">
+                      <div v-for="(photo, index) in photo_previews" class="min-w-60 relative aspect-video overflow-hidden justify-center items-center rounded bg-neutral/20">
+                        <img :src="photo.path" class="max-h-full max-w-full">
                         
                         <!-- action button -->
                         <div class="dropdown dropdown-end absolute right-0 top-0">
@@ -76,7 +76,11 @@ const BlogStore = useBlogStore();
 const route = useRoute();
 const { id } = route.query;
 
-const data = await BlogStore.getById(id);
+const config = useRuntimeConfig();
+const apiUri = config.public.apiUri;
+
+const fetch_data = await BlogStore.getById(id);
+const data = ref(fetch_data);
 console.log(data);
 
 const errors = ref({
@@ -85,12 +89,24 @@ const errors = ref({
 });
 
 const formData = ref({
-    title: '',
-    content: ''
+    title: data.value ? data.value.title : '',
+    content: data.value ? data.value.content : ''
 });
 
+// map photo
+const current_photos = data.value.photos.map(photo => {
+    return {
+        path: apiUri + photo.path,
+        id: photo.id
+    }
+});
+console.log(current_photos);
+
+// PHOTO PREVIEW
+
+
 const file_photos = [];
-const photo_previews = ref([]);
+const photo_previews = ref(current_photos);
 const handleFile = (e) => {
     for (const file of e.target.files) {
         const reader = new FileReader();
@@ -110,9 +126,6 @@ const handleFile = (e) => {
     e.target.value = ''
 }
 
-const config = useRuntimeConfig();
-const apiUri = config.public.apiUri;
-
 // HANDLE SAVE
 const fetchError = ref('');
 const isLoading = ref(false);
@@ -125,12 +138,27 @@ const handleSave = async () => {
     // hide confirmation
     showCreateConfirmation.value = false;
     try {
-        // isLoading.value = true;
-        // await BlogStore.create(formData.value, file_photos);
+        isLoading.value = true;
+        const dataUpdate = { ...formData.value };
 
-        // navigateTo('/admin/blogs');
+        // tambahin foto lama
+        dataUpdate.photos = [];
+        for(const p of photo_previews.value) {
+            if (p.id != undefined) {
+                dataUpdate.photos.push(p.id)
+            }
+        }
+
+        console.log(data.value.id);
+        console.log(dataUpdate);
+        console.log(file_photos);
+
+        await BlogStore.update(data.value.id, dataUpdate, file_photos);
+
+        navigateTo('/admin/blogs');
 
     } catch (error) {
+        console.log(error)
         // reset loading indicator
         isLoading.value = false;
 

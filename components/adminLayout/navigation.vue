@@ -21,8 +21,8 @@ const menus = [
         icon: resolveComponent("LucideUserRound")
     },
     {
-        title: "Project",
-        to: "/admin/project",
+        title: "Projects",
+        to: "/admin/projects",
         icon: resolveComponent("LucideLayoutDashboard")
     },
     {
