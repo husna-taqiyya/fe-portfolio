@@ -5,7 +5,8 @@ import { isSkill } from "~/utils/skillValidation";
 export const useSkillStore = defineStore('skills', {
     state: () => ({
         skills: null,
-        categories: []
+        categories: [],
+        skillsByCategory: []
     }),
     actions: {
         async get() {
@@ -25,6 +26,12 @@ export const useSkillStore = defineStore('skills', {
             this.categories = await Api.get('/skill_categories');
 
             // RETURN VOID
+        },
+        async getSkillsByCategory() {
+            const Api = useApiStore();
+
+            this.skillsByCategory = await Api.get('/skill_by_category');
+
         },
         async create(data) {
             const Api = useApiStore();

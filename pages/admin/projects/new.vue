@@ -14,6 +14,7 @@
             <div class="text-error text-right text-sm pr-2" v-if="errors.title">{{ errors.title }}</div>
         </label>
 
+        <!-- STATUS -->
         <div class="label label-text pb-0">Status Project</div>
         <div class="flex gap-4">
             <div class="form-control">
@@ -33,6 +34,41 @@
                     <input v-model="formData.status" type="radio" name="status" class="radio checked:bg-red-500" checked />
                     <span class="label-text">COMPLETE</span> 
                 </label>
+            </div>
+        </div>
+
+        <!-- PERIODE -->
+        <div class="flex gap-3">
+            <label class="form-control min-w text-nowrap">
+                <div class="label label-text pb-0">Start Date</div>
+    
+                <DatePicker v-model="formData.startDate" color="gray">
+                    <template #default="{ togglePopover }">
+                        <button @click="togglePopover" class="btn btn-outline border-neutral/25 font-normal">
+                            {{ dayjs(formData.startDate).format('D MMMM YYYY') }}
+                        </button>
+                    </template>
+                </DatePicker>
+    
+                <div class="text-error text-right text-sm p-2" v-if="errors.startDate">{{ errors.startDate }}</div>
+            </label>
+
+            <div class="form-control min-w text-nowrap">
+                <div class="label label-text pb-0">End Date</div>
+                <div class="flex items-center gap-4">
+                    <DatePicker v-model="formData.endDate" color="gray">
+
+                        <template #default="{ togglePopover }">
+                            <button @click="togglePopover" class="btn btn-outline border-neutral/25 font-normal min-w-32" :disabled="isPresent">
+                                {{ isPresent ? '_' : dayjs(formData.endDate).format('D MMMM YYYY') }}
+                            </button>
+                        </template>
+                    </DatePicker>
+                    <input type="checkbox" v-model="isPresent" class="checkbox" @change="handlePresent" />PRESENT
+                </div>
+    
+    
+                <div class="text-error text-right text-sm p-2" v-if="errors.endDate">{{ errors.endDate }}</div>
             </div>
         </div>
 
@@ -70,6 +106,22 @@
             </label>
         </div>
 
+        <!-- SKILL -->
+        <div class="flex gap-2 items-center my-2">
+            <div class="label label-text">Skills</div>
+            <button class="btn btn-xs btn-neutral" @click="showSkillSelector = true">
+                <LucidePlus :size="10" /> Add Skill
+            </button>
+        </div>
+        <div class="card min-h-20 w-full bg-neutral/5 p-4">
+            <div class="flex flex-wrap gap-3">
+                <button v-for="skill in selectedSkills" :key="skill.id" class="btn btn-neutral btn-sm w-max">
+                    <div v-html="skill.svg" class="w-6 h-6"></div>
+                    {{ skill.title }}
+                </button>
+            </div>
+        </div>
+
         <!-- description -->
         <label class="form-control w-full">
             <div class="label label-text pb-0">Description</div>
@@ -79,12 +131,24 @@
         </label>
 
     </div>
+
+    <!-- skill selector -->
+    <!--  -->
+    <AdminProjectsSkillSelector :show="showSkillSelector" :selected="selectedSkills" @close="showSkillSelector = false" @addSkill = "addSkill" />
 </template>
 
 <script setup>
+import dayjs from 'dayjs'
+import { DatePicker } from 'v-calendar';
+
 definePageMeta({
     layout: 'admin',
     middleware: ['auth']
+});
+
+const SkillStore = useSkillStore();
+onBeforeMount(async () => {
+    await SkillStore.getSkillsByCategory(); 
 });
 
 const formData = ref({
@@ -100,6 +164,31 @@ const formData = ref({
 });
 
 const errors = ref({});
+
+// handle present
+const isPresent = ref(true);
+const handlePresent = (e) => {
+    const checked = e.target.checked;
+    formData.value.endDate = checked ? null : new Date()
+}
+
 // photos
 // skills
+const showSkillSelector = ref(false)
+const selectedSkills = ref([]);
+const addSkill = (skill) => {
+    const index = selectedSkills.value.findIndex(s => {
+        return s.id == skill.id
+    });
+
+    if (index == -1) {
+        // tambahkan
+        selectedSkills.value.push(skill);
+    } else {
+        // hapus
+        selectedSkills.value.splice(index, 1);
+
+    }
+}
+
 </script>
