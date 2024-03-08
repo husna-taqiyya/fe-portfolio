@@ -19,19 +19,19 @@
         <div class="flex gap-4">
             <div class="form-control">
                 <label class="label cursor-pointer flex justify-start gap-2">
-                    <input v-model="formData.status" type="radio" name="status" class="radio checked:bg-red-500" checked />
+                    <input v-model="formData.status" type="radio" name="status" class="radio checked:bg-red-500" value="ON_PROGRESS" />
                     <span class="label-text">ON PROGRESS</span> 
                 </label>
             </div>
             <div class="form-control">
                 <label class="label cursor-pointer flex justify-start gap-2">
-                    <input v-model="formData.status" type="radio" name="status" class="radio checked:bg-red-500" checked />
+                    <input v-model="formData.status" type="radio" name="status" class="radio checked:bg-red-500" value="MAINTENANCE" />
                     <span class="label-text">MAINTENANCE</span> 
                 </label>
             </div>
             <div class="form-control">
                 <label class="label cursor-pointer flex justify-start gap-2">
-                    <input v-model="formData.status" type="radio" name="status" class="radio checked:bg-red-500" checked />
+                    <input v-model="formData.status" type="radio" name="status" class="radio checked:bg-red-500" value="COMPLETE" />
                     <span class="label-text">COMPLETE</span> 
                 </label>
             </div>
@@ -130,14 +130,32 @@
             <div class="text-error text-right text-sm" v-if="errors.description">{{ errors.description }}</div>
         </label>
 
+        <!-- photos -->
+
+        <div class="flex justify-end gap-2 my-4">
+            <NuxtLink to="/admin/blogs" class="btn">Cancel</NuxtLink>
+            <button @click="showCreateConfirmation = true" class="btn btn-neutral">
+                Save
+                <ImagesLoading v-show="isLoading" class="w-10" />
+            </button>
+        </div>
+        <div class="text-error text-sm text-right">{{ fetchError }}</div>
+
     </div>
 
     <!-- skill selector -->
-    <!--  -->
     <AdminProjectsSkillSelector :show="showSkillSelector" :selected="selectedSkills" @close="showSkillSelector = false" @addSkill = "addSkill" />
+    
+    <!-- modal confirmation -->
+    <AdminModalConfirm :show="showCreateConfirmation" text_save="Save" @close="showCreateConfirmation =  false"
+            @saved="handleSave">
+            Are you sure to save this new project?
+    </AdminModalConfirm>
+
 </template>
 
 <script setup>
+import Joi from 'joi';
 import dayjs from 'dayjs'
 import { DatePicker } from 'v-calendar';
 
@@ -163,24 +181,21 @@ const formData = ref({
     company: ''
 });
 
-const errors = ref({});
 
 // handle present
 const isPresent = ref(true);
 const handlePresent = (e) => {
     const checked = e.target.checked;
     formData.value.endDate = checked ? null : new Date()
-}
+};
 
-// photos
-// skills
 const showSkillSelector = ref(false)
 const selectedSkills = ref([]);
 const addSkill = (skill) => {
     const index = selectedSkills.value.findIndex(s => {
         return s.id == skill.id
     });
-
+    
     if (index == -1) {
         // tambahkan
         selectedSkills.value.push(skill);
@@ -188,6 +203,51 @@ const addSkill = (skill) => {
         // hapus
         selectedSkills.value.splice(index, 1);
 
+    }
+}
+
+// handle save
+const errors = ref({});
+const fetchError = ref('')
+const showCreateConfirmation = ref(false)
+const isLoading = ref(false)
+const ProjectStore = useProjectStore();
+
+const handleSave = async () => {
+    // reset
+    errors.value = {};
+    fetchError.value = '';
+    
+    try {
+        isLoading.value = true;
+        const dataSave = { ...formData.value };
+    
+        // end date jika null, jadikan ''
+        if (!dataSave.endDate) dataSave.endDate = ''
+        
+        // skill -> array of id
+        const skills_ids = selectedSkills.value.map(s => s.id)
+    
+        await ProjectStore.create(dataSave, skills_ids);
+
+        navigateTo('/admin/projects');
+    } catch (error) {
+        console.log(error)
+        showCreateConfirmation.value = false;
+        isLoading.value = false;
+
+        if (error instanceof Joi.ValidationError) {
+            // joi error
+            errors.value = joierror(error);
+        } else {
+            if (error.data) {
+                //fetch error
+                fetchError.value = error.data.message;
+            } else {
+                // code error                    
+                console.log(error)
+            }
+        }
     }
 }
 

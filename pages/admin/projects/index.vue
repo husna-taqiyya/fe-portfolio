@@ -49,7 +49,7 @@
                 <div class="card-body flex-none !pb-1">
                     <h2 class="card-title max-md:text-base line-clamp-1">{{project.title}}</h2>
                     <div class="flex max-sm:flex-col gap-1 justify-between">
-                        <p class="text-xs">{{ project.startDate }} - {{ project.endDate }}</p>
+                        <p class="text-xs">{{ project.readStartDate }} - {{ project.readEndDate }}</p>
                         <p class="text-xs font-semibold">{{ project.status }}</p>
                     </div>
                 </div>
@@ -113,14 +113,13 @@ const config = useRuntimeConfig();
 const apiUri = config.public.apiUri;
 
 const ProjectStore = useProjectStore();
-
 onBeforeMount(async() => {
     await getData();
 });
 
 
-const page = ref(1);
 const filter = ref('');
+const page = ref(1);
 const getData = async () =>{
     await ProjectStore.get(page.value, filter.value);
 }
@@ -150,15 +149,18 @@ const removeData = ref(null);
 const showRemoveModal = ref(false);
 const showSuccessModal = ref(false);
 const handleRemove = async () => {
+    // prevent remove if no data
+    if (!removeData.value) return;
+
     try {
         // proses delete
         await ProjectStore.remove(removeData.value.id);
 
-        // hide modal
-        showRemoveModal.value = false;
-
         // success modal
-        showSuccessModal.value = true;
+        showRemoveModal.value = true;
+
+        // hide modal
+        showSuccessModal.value = false;
 
         // refresh data
         await getData();
