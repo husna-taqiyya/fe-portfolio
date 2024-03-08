@@ -96,18 +96,17 @@ definePageMeta({
     middleware: ['auth']
 });
 
-const BlogStore = useBlogStore();
 const config = useRuntimeConfig();
 const apiUri = config.public.apiUri;
 
+const BlogStore = useBlogStore();
 onBeforeMount(async() => {
     await getData();
 });
 
 
-const page = ref(1);
 const filter = ref('');
-
+const page = ref(1);
 const getData = async () =>{
     await BlogStore.get(page.value, filter.value);
 }
@@ -153,12 +152,12 @@ const handleRemove = async () => {
     try {
         // proses delete
         await BlogStore.remove(removeData.value.id);
+        
+        // success modal
+        showSuccessModal.value = true;
 
         // hide modal
         showRemoveModal.value = false;
-
-        // success modal
-        showSuccessModal.value = true;
 
         // refresh data
         await getData();

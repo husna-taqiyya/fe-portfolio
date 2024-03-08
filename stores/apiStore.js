@@ -57,6 +57,7 @@ export const useApiStore = defineStore('api', {
             }
 
             try {
+                console.log("masuk API")
                 const response = await $fetch(apiUri + path, {
                     method: 'PUT',
                     body: data,

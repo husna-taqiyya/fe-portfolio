@@ -2,7 +2,7 @@
     <div>
         <div class="font-semibold text-xl mb-4 pb-2 border-b border-b-neutral">
             <div class="flex items-center gap-2">
-                <LucideGraduationCap :size="30" />Update Blog {{ data.title }}
+                <LucideGraduationCap :size="30" />Update Blog : {{ data.title }}
             </div>
         </div>
 

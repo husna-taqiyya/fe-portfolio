@@ -70,6 +70,9 @@ definePageMeta({
     middleware: ['auth']
 });
 
+// const config = useRuntimeConfig();
+// const apiUri = config.public.apiUri;
+
 const errors = ref({
     title: '',
     content: ''
@@ -80,6 +83,7 @@ const formData = ref({
     content: ''
 });
 
+// PHOTO PREVIEW
 const file_photos = [];
 const photo_previews = ref([]);
 const handleFile = (e) => {
@@ -101,8 +105,6 @@ const handleFile = (e) => {
     e.target.value = ''
 }
 
-const config = useRuntimeConfig();
-const apiUri = config.public.apiUri;
 
 // HANDLE SAVE
 const BlogStore = useBlogStore();

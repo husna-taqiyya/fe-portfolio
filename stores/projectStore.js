@@ -1,9 +1,10 @@
-import { defineStore } from "pinia";
-import { useApiStore } from "./apiStore";
+import { defineStore } from 'pinia';
+import { useApiStore } from './apiStore';
 
 export const useProjectStore = defineStore('project', {
     state: () => ({
         data: null
+        // data: {data: [], total: 10, maxPage: 2}
     }),
     getters: {
         projects: (state) => state.data ? state.data.data : [],
@@ -16,23 +17,21 @@ export const useProjectStore = defineStore('project', {
             const Api = useApiStore();
             this.data = await Api.get(`/projects?limit=12&page=${page}&search=${search}`);
         },
-        // async getById(id) {
-        //     const Api = useApiStore();
-        //     return Api.get('/project/' + id);
-        // },
-        async create(data, skills) {
+        async getById(id) {
+            const Api = useApiStore();
+            return Api.get('/project/' + id);
+        },
+        async create(data, skills, photos) {
             const Api = useApiStore();
 
             data = Validate(isCreateProject, data);
 
-            // buat FORM DATA 
+            // buat FORM DATA
             const formData = new FormData();
-            // key -> value
+            // key => value
             const array_keys = Object.keys(data);
-            console.log(array_keys);
-
             for (const key of array_keys) {
-                // append by key & value
+                // append by key and value
                 formData.append(key, data[key]);
             }
 
@@ -42,43 +41,58 @@ export const useProjectStore = defineStore('project', {
                 formData.append(`skills[${i}]`, id)
             }
 
+            // append foto dengan loop
+            for (const photo of photos) {
+                formData.append('photos', photo)
+            }
+
             await Api.post('/project', formData);
         },
-        // async update(id, data, new_photos) {
-        //     const Api = useApiStore();
+        async update(id, data, skills, photos) {
+            const Api = useApiStore();
 
-        //     data = Validate(isUpdateBlog, data);
+            // validasi
+            data = Validate(isCreateProject, data);
 
-        //     console.log(data)
+            // photo lama 
+            const old_photos = data.photos;
+            delete data.photos
 
-        //     // buat FORM DATA
-        //     const formData = new FormData();
-        //     formData.append('title', data.title);
-        //     formData.append('content', data.content);
+            // buat FORM DATA
+            const formData = new FormData();
 
-        //     // append photo lama by looping
-        //     for (let i = 0; i < data.photos.length; i++) {
-        //         const id = data.photos[i];
-        //         formData.append(`photos${i}`, id)
+            // key => value
+            const array_keys = Object.keys(data);
+            for (const key of array_keys) {
+                // append by key and value
+                formData.append(key, data[key]);
+            }
 
-        //         console.log(formData.get(`photos[${i}]`))
-        //     }
+            // append old photos
+            for (let i = 0; i < old_photos.length; i++) {
+                const photo_id = old_photos[i];
+                formData.append(`photos[${i}]`, photo_id)
+            }
 
-        //     console.log(formData.get('title'))
-        //     console.log(formData.get('content'))
+            for (let i = 0; i < skills.length; i++) {
+                const id = skills[i];
 
-        //     // append photo baru
-        //     for (const photo of new_photos) {
-        //         formData.append('photos', photo)
-        //     }
+                formData.append(`skills[${i}]`, id)
+            }
 
-        //     await Api.put(`/blog/${id}`, formData);
+            // append foto baru
+            for (const photo of photos) {
+                formData.append('photos', photo);
+            }
 
-        // },
+            console.log("formData")
+            console.log(formData)
+            await Api.put(`/project/${id}`, formData)
+        },
         async remove(id) {
             const Api = useApiStore();
 
-            await Api.delete('/project/' + id);
-        }
+            await Api.delete('/project/' + id)
+        },
     }
 });
