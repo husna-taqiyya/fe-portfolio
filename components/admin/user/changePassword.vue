@@ -33,12 +33,12 @@
             <div class="text-error text-sm text-right mr-2">{{ fetchError }}</div>
         </div>
         <!-- MODAL CONFIRMATION -->
-        <AdminModalConfirm :show="confirm" text_save="Change Password" @close="confirm = false" @saved="handleUpdate">
+        <LazyAdminModalConfirm :show="confirm" text_save="Change Password" @close="confirm = false" @saved="handleUpdate">
             <h3 class="font-bold text-lg">Hello!</h3>
             <p class="py-4">Are you sure to change password?</p>
-        </AdminModalConfirm>
+        </LazyAdminModalConfirm>
         <!-- MODAL SUCCESS -->
-        <AdminModalSuccess :show="success" @close="success = false" />
+        <LazyAdminModalSuccess :show="success" @close="success = false" />
     </div>
 </template>
 

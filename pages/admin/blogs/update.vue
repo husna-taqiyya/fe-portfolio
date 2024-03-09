@@ -57,10 +57,10 @@
             <button @click="showCreateConfirmation = true" class="btn btn-neutral">Save</button>
         </div>
 
-        <AdminModalConfirm :show="showCreateConfirmation" text_save="Save" @close="showCreateConfirmation =  false"
+        <LazyAdminModalConfirm :show="showCreateConfirmation" text_save="Save" @close="showCreateConfirmation =  false"
             @saved="handleSave">
             Are you sure to save this new blog?
-        </AdminModalConfirm>
+        </LazyAdminModalConfirm>
     </div>
 </template>
 

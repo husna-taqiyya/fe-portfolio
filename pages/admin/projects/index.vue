@@ -97,14 +97,14 @@
     </div>
 
     <!-- Modal confirmation -->
-    <AdminModalConfirm :show="showRemoveModal" text_save="remove" @close="showRemoveModal = false"
+    <LazyAdminModalConfirm :show="showRemoveModal" text_save="remove" @close="showRemoveModal = false"
         @saved="handleRemove">
         Are you sure to remove ?
         <div v-if="removeData" class="font-bold">{{ removeData.title }}</div>
-    </AdminModalConfirm>
+    </LazyAdminModalConfirm>
 
     <!-- Modal success alert -->
-    <AdminModalSuccess :show="showsuccessModal" @close="showsuccessModal = false" />
+    <LazyAdminModalSuccess :show="showsuccessModal" @close="showsuccessModal = false" />
 </template>
 
 <script setup>

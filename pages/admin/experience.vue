@@ -96,14 +96,14 @@
 
 
         <!-- modal confirmation -->
-        <AdminModalConfirm :show="showRemoveModal" text_save="Remove" @close="showRemoveModal = false"
+        <LazyAdminModalConfirm :show="showRemoveModal" text_save="Remove" @close="showRemoveModal = false"
             @saved="handleRemove">
             Are you sure to remove
             <span v-if="removeData" class="font-bold">{{ removeData.title }} ?</span>
-        </AdminModalConfirm>
+        </LazyAdminModalConfirm>
 
         <!-- modal success alert -->
-        <AdminModalSuccess :show="showSuccessModal" @close="showSuccessModal = false" />
+        <LazyAdminModalSuccess :show="showSuccessModal" @close="showSuccessModal = false" />
 
         <!-- FORM MODAL -->
         <AdminExperienceForm :data="editData" :show="showForm" text_save="saved" @close="showForm = false" @saved="saved" />

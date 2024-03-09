@@ -177,14 +177,14 @@
     </div>
 
     <!-- skill selector -->
-    <AdminProjectsSkillSelector :show="showSkillSelector" @close="showSkillSelector = false" :selected="selectedSkill"
+    <LazyAdminProjectsSkillSelector :show="showSkillSelector" @close="showSkillSelector = false" :selected="selectedSkill"
         @addSkill="addSkill" />
 
     <!-- Modal confirmation -->
-    <AdminModalConfirm :show="showCreateConfirmation" text_save="save" @close="showCreateConfirmation = false"
+    <LazyAdminModalConfirm :show="showCreateConfirmation" text_save="save" @close="showCreateConfirmation = false"
         @saved="handleSave">
         Are you sure to save this new Project ?
-    </AdminModalConfirm>
+    </LazyAdminModalConfirm>
 </template>
 
 

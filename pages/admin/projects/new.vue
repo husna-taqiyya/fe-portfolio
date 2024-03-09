@@ -174,10 +174,10 @@
     <AdminProjectsSkillSelector :show="showSkillSelector" :selected="selectedSkills" @close="showSkillSelector = false" @addSkill = "addSkill" />
     
     <!-- modal confirmation -->
-    <AdminModalConfirm :show="showCreateConfirmation" text_save="Save" @close="showCreateConfirmation =  false"
+    <LazyAdminModalConfirm :show="showCreateConfirmation" text_save="Save" @close="showCreateConfirmation =  false"
             @saved="handleSave">
             Are you sure to save this new project?
-    </AdminModalConfirm>
+    </LazyAdminModalConfirm>
 
 </template>
 
