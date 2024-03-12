@@ -15,7 +15,13 @@ export const useProjectStore = defineStore('project', {
     actions: {
         async get(page = 1, search = '') {
             const Api = useApiStore();
-            this.data = await Api.get(`/projects?limit=12&page=${page}&search=${search}`);
+
+            const response = await Promise.all([
+                Api.get(`/projects?limit=12&page=${page}&search=${search}`),
+                delay
+            ]);
+
+            this.data = response[0];
         },
         async getById(id) {
             const Api = useApiStore();

@@ -18,19 +18,17 @@
                     <tr>
                         <td>company</td>
                         <td class="text-center">title</td>
-                        <td>location</td>
-                        <td>description</td>
+                        <td class="text-center">location</td>
                         <td class="text-center">Date</td>
                         <td class="text-center">Action</td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody v-if="ExpStore.experiences">
                     <!-- row 1 -->
                     <tr v-for="exp in dataTable" :key="exp.id">
                         <th>{{ exp.company }}</th>
                         <td class="text-center">{{ exp.title }}</td>
                         <td class="text-center">{{ exp.location }}</td>
-                        <td class="text-center">{{ exp.description }}</td>
                         <td class="text-center">{{ exp.readStartDate }} - {{ exp.readEndDate }}</td>
                         <td>
                             <div class="flex justify-center gap-2">
@@ -45,10 +43,12 @@
                         </td>
                     </tr>
                 </tbody>
+                <AdminExperienceSkeletonTable v-else />
             </table>
         </div>
 
-        <div class="lg:hidden flex flex-col gap-2 sm:gap-4">
+        <!-- MOBILE -->
+        <div v-if="ExpStore.experiences" class="lg:hidden flex flex-col gap-2 sm:gap-4">
             <div v-for="exp in dataTable" :key="exp.id" class="card bg-base-100 shadow-xl">
                 <div class="card-body max-sm:p-4">
                     <div class="flex justify-between">
@@ -94,6 +94,8 @@
             </div>
         </div>
 
+        <!-- SKELETON MOBILE -->
+        <AdminExperienceSkeletonMobile v-else />
 
         <!-- modal confirmation -->
         <LazyAdminModalConfirm :show="showRemoveModal" text_save="Remove" @close="showRemoveModal = false"

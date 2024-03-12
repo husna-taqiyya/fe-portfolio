@@ -39,7 +39,13 @@ export const useBlogStore = defineStore('blog', {
     actions: {
         async get(page = 1, search = '') {
             const Api = useApiStore();
-            this.data = await Api.get(`/blogs?limit=12&page=${page}&search=${search}`);
+
+            const response = await Promise.all([
+                Api.get(`/blogs?limit=12&page=${page}&search=${search}`),
+                delay
+            ]);
+
+            this.data = response[0];
         },
         async getById(id) {
             const Api = useApiStore();
@@ -67,8 +73,6 @@ export const useBlogStore = defineStore('blog', {
 
             data = Validate(isUpdateBlog, data);
 
-            console.log(data)
-
             // buat FORM DATA
             const formData = new FormData();
             formData.append('title', data.title);
@@ -78,19 +82,15 @@ export const useBlogStore = defineStore('blog', {
             for (let i = 0; i < data.photos.length; i++) {
                 const id = data.photos[i];
                 formData.append(`photos${i}`, id)
-
-                console.log(formData.get(`photos[${i}]`))
             }
-
-            console.log(formData.get('title'))
-            console.log(formData.get('content'))
 
             // append photo baru
             for (const photo of new_photos) {
                 formData.append('photos', photo)
             }
 
-            await Api.put(`/blog/${id}`, formData);
+            // await Api.put(`/blog/${id}`, formData);
+            await Api.put("/blog/" + id, formData);
 
         },
         async remove(id) {

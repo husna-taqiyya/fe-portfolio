@@ -9,7 +9,19 @@ export const useEducationStore = defineStore('education', {
     actions: {
         async get() {
             const Api = useApiStore();
-            this.educations = await Api.get('/educations');
+
+            const delayMinimal = new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve();
+                }, 4000);
+            });
+
+            const response = await Promise.all([
+                Api.get('/educations'),
+                delayMinimal
+            ]);
+
+            this.educations = response[0];
         },
         async remove(id) {
             const Api = useApiStore();

@@ -51,23 +51,22 @@ export const useApiStore = defineStore('api', {
             const config = useRuntimeConfig();
             const apiUri = config.public.apiUri;
 
-            if (!(data instanceof FormData)) {
+            if (!data instanceof FormData) {
                 // jika databukan formdata
                 data = JSON.stringify(data);
             }
-
             try {
                 console.log("masuk API")
                 const response = await $fetch(apiUri + path, {
-                    method: 'PUT',
+                    method: "PUT",
                     body: data,
-                    // headers: { 'Content-Type': 'application/json' },
                     credentials: 'include'
                 });
 
                 // RETURN DATA  
                 return response
             } catch (error) {
+                console.log(error)
                 this.handleError(error);
             }
         },

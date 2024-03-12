@@ -317,7 +317,6 @@ const handleSave = async () => {
         // skill => array of id
         const skill_ids = selectedSkill.value.map(s => s.id);
 
-        console.log("masuk save")
         await ProjectStore.update(id, dataUpdate, skill_ids, file_photos);
 
         navigateTo('/admin/projects');

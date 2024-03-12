@@ -19,7 +19,7 @@
             <div class="overflow-auto">
                 <!-- loop photo preview -->
                 <div class="flex flex-nowrap gap-2">
-                      <div v-for="(photo, index) in photo_previews" class="min-w-60 relative aspect-video overflow-hidden justify-center items-center rounded bg-neutral/20">
+                      <div v-for="(photo, index) in photo_previews" class="flex justify-center min-w-60 max-w-60 relative aspect-video overflow-hidden  items-center rounded bg-neutral/20">
                         <img :src="photo.path" class="max-h-full max-w-full">
                         
                         <!-- action button -->
@@ -57,7 +57,7 @@
             <button @click="showCreateConfirmation = true" class="btn btn-neutral">Save</button>
         </div>
 
-        <LazyAdminModalConfirm :show="showCreateConfirmation" text_save="Save" @close="showCreateConfirmation =  false"
+        <LazyAdminModalConfirm v-if="showCreateConfirmation" :show="showCreateConfirmation" text_save="Save" @close="showCreateConfirmation =  false"
             @saved="handleSave">
             Are you sure to save this new blog?
         </LazyAdminModalConfirm>
@@ -81,16 +81,12 @@ const apiUri = config.public.apiUri;
 
 const fetch_data = await BlogStore.getById(id);
 const data = ref(fetch_data);
-console.log(data);
 
-const errors = ref({
-    title: '',
-    content: ''
-});
+const errors = ref({});
 
 const formData = ref({
-    title: data.value ? data.value.title : '',
-    content: data.value ? data.value.content : ''
+    title:  data.value.title || '',
+    content:  data.value.content || ''
 });
 
 // map photo
@@ -100,7 +96,6 @@ const current_photos = data.value.photos.map(photo => {
         id: photo.id
     }
 });
-console.log(current_photos);
 
 // PHOTO PREVIEW
 
@@ -117,7 +112,7 @@ const handleFile = (e) => {
                 file_photos.push(file);
 
                 // tampung preview
-                photo_previews.value.push(reader.result);
+                photo_previews.value.push({path : reader.result});
             }
         }
     }
@@ -149,16 +144,12 @@ const handleSave = async () => {
             }
         }
 
-        console.log(data.value.id);
-        console.log(dataUpdate);
-        console.log(file_photos);
-
         await BlogStore.update(data.value.id, dataUpdate, file_photos);
 
         navigateTo('/admin/blogs');
 
     } catch (error) {
-        console.log(error)
+    console.log(error)
         // reset loading indicator
         isLoading.value = false;
 
